@@ -2,7 +2,7 @@ backend:
   name: github
   repo: badev-net/11ty-Site
   branch: main
-  base_url: https://openauth.nbadev01.workers.dev
+  base_url: https://api.netlify.com
   auth_endpoint: auth
 
 # Uncomment this for local testing (run: npx decap-server)
