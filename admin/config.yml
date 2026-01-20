@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: badev-net/11ty-Site
   branch: main
 
 # Uncomment this for local testing (run: npx decap-server)
