@@ -1,0 +1,25 @@
+{
+  "name": "project-test",
+  "version": "1.0.0",
+  "description": "Personal portfolio and blog built with 11ty and Decap CMS",
+  "main": ".eleventy.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "clean": "rm -rf _site"
+  },
+  "keywords": [
+    "11ty",
+    "eleventy",
+    "portfolio",
+    "blog"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  },
+  "dependencies": {
+    "luxon": "^3.4.4"
+  }
+}
