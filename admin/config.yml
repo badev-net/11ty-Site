@@ -2,6 +2,7 @@ backend:
   name: github
   repo: badev-net/11ty-Site
   branch: main
+  base_url: https://sveltia-cms-auth.netlify.app
 
 # Uncomment this for local testing (run: npx decap-server)
 #local_backend: true
