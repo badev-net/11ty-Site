@@ -283,8 +283,8 @@ html[data-theme="light"] .footer-links a {
   border-color: var(--primary-color) !important;
 }
 
-/* Footer social icons */
-.footer-social {
+/* Footer icon links */
+.footer-links-icons {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
