@@ -128,7 +128,9 @@ html[data-theme="light"] .post-content pre::before {
   background: var(--darker-bg);
   color: #059669;
   border-color: #059669;
-  text-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  text-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 html[data-theme="light"] .responsibilities li,
@@ -157,12 +159,29 @@ html[data-theme="light"] main,
 html[data-theme="light"] footer {
   background: var(--card-bg);
   border-color: #059669;
-  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
-html[data-theme="light"] .logo,
+html[data-theme="light"] .logo {
+  color: #059669;
+  text-shadow:
+    0 0 4px rgba(5, 150, 105, 0.4),
+    0 0 8px rgba(5, 150, 105, 0.2);
+}
+
+html[data-theme="light"] .logo::before {
+  color: #059669;
+}
+
+html[data-theme="light"] .logo::after {
+  color: #059669;
+}
+
 html[data-theme="light"] nav ul li a {
-  color: var(--primary-color);
+  color: #059669;
+  border-color: #059669;
 }
 
 html[data-theme="light"] nav ul li a:hover {
@@ -172,7 +191,9 @@ html[data-theme="light"] nav ul li a:hover {
 html[data-theme="light"] .hero {
   background: rgba(5, 150, 105, 0.05);
   border-color: #059669;
-  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 html[data-theme="light"] .btn-primary,
@@ -197,7 +218,9 @@ html[data-theme="light"] .contact-info {
 html[data-theme="light"] .resume-header {
   background: rgba(5, 150, 105, 0.05);
   border-color: #059669;
-  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 html[data-theme="light"] .resume-section {
@@ -222,14 +245,16 @@ html[data-theme="light"] .form-group textarea {
 }
 
 html[data-theme="light"] .back-link {
-  color: var(--text-primary);
+  color: #059669;
   border-color: #059669;
 }
 
 html[data-theme="light"] .back-link:hover {
   background: #059669;
   color: white;
-  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 /* Light mode professional fonts */
@@ -260,6 +285,26 @@ html[data-theme="light"] h6 {
   text-transform: none;
 }
 
+html[data-theme="light"] .hero h1 {
+  font-family: "Orbitron", monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #059669, #047857);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+html[data-theme="light"] .resume-header h1 {
+  font-family: "Orbitron", monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #059669;
+  text-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
+}
+
 html[data-theme="light"] .resume,
 html[data-theme="light"] .contact-info,
 html[data-theme="light"] .company,
@@ -281,10 +326,35 @@ html[data-theme="light"] .footer-content {
   border-bottom-color: rgba(5, 150, 105, 0.3);
 }
 
+html[data-theme="light"] .footer-section h3 {
+  color: #059669;
+  text-shadow: none;
+}
+
+html[data-theme="light"] .social-link {
+  border-color: #059669;
+  color: #059669;
+}
+
+html[data-theme="light"] .social-link svg {
+  stroke: #059669;
+}
+
+html[data-theme="light"] .social-link:hover {
+  background: #059669;
+  color: white;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
+}
+
+html[data-theme="light"] .social-link:hover svg {
+  stroke: white;
+}
+
 html[data-theme="light"] .intro,
 html[data-theme="light"] .about-preview p,
 html[data-theme="light"] .post-preview p,
-html[data-theme="light"] .blog-intro,
 html[data-theme="light"] .post-content,
 html[data-theme="light"] .footer-section p,
 html[data-theme="light"] .footer-links a {
@@ -295,6 +365,62 @@ html[data-theme="light"] .footer-links a {
     "Segoe UI",
     Roboto,
     sans-serif;
+}
+
+html[data-theme="light"] .blog-intro {
+  font-family: "Share Tech Mono", monospace;
+  color: #059669;
+  border-left-color: #059669;
+}
+
+html[data-theme="light"] .blog-list h1 {
+  font-family: "Orbitron", monospace;
+  color: #059669;
+  text-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+html[data-theme="light"] .blog-list h1::before,
+html[data-theme="light"] .blog-list h1::after {
+  color: #059669;
+}
+
+html[data-theme="light"] .blog-post h2 {
+  font-family: "Orbitron", monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+html[data-theme="light"] .blog-post h2 a {
+  color: #059669;
+}
+
+html[data-theme="light"] .blog-post h2 a:hover {
+  color: #047857;
+  text-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
+}
+
+html[data-theme="light"] .post-header h1 {
+  font-family: "Orbitron", monospace;
+  color: #059669;
+  text-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+html[data-theme="light"] .post-header {
+  border-color: #059669;
+  background: rgba(5, 150, 105, 0.05);
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 /* Homepage inline style overrides */
@@ -398,6 +524,26 @@ html[data-theme="light"] .theme-toggle .sun-icon {
 
 html[data-theme="light"] .theme-toggle .moon-icon {
   display: block;
+}
+
+html[data-theme="light"] .theme-toggle {
+  border-color: #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
+}
+
+html[data-theme="light"] .theme-toggle svg {
+  color: #059669;
+}
+
+html[data-theme="light"] .theme-toggle:hover {
+  border-color: #047857;
+}
+
+html[data-theme="light"] .theme-toggle:hover svg {
+  color: #047857;
+  filter: drop-shadow(0 0 3px #059669);
 }
 * {
   margin: 0;
@@ -529,7 +675,9 @@ header nav {
   font-weight: 900;
   text-decoration: none;
   color: var(--primary-color);
-  text-shadow: var(--glow-md);
+  text-shadow:
+    0 0 4px var(--primary-color),
+    0 0 8px rgba(0, 217, 255, 0.3);
   transition: all 0.3s ease;
   letter-spacing: 3px;
   position: relative;
@@ -971,7 +1119,7 @@ h1 {
 }
 .blog-intro {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.8);
   margin-bottom: 3rem;
   padding: 1.5rem;
   border-left: 3px solid var(--accent-cyan);
@@ -1071,23 +1219,45 @@ h1 {
   box-shadow: var(--glow-cyan);
   animation: button-pulse 1s infinite; /* Added animation */
 }
-/* Single Blog Post */
-.blog-post-page header::before,
-.blog-post-page footer::before {
-  display: none;
+
+/* Fixed blog intro section */
+.blog-list-page .blog-list h1 {
+  position: sticky;
+  top: 100px;
+  z-index: 51;
+  background: var(--card-bg);
+  padding: 1rem 0;
+  margin-bottom: 0;
+}
+
+.blog-list-page .blog-intro {
+  position: sticky;
+  top: 180px;
+  z-index: 50;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .blog-post-single {
   max-width: 900px;
   margin: 0 auto;
 }
+
 .post-header {
-  margin-bottom: 3rem;
+  position: sticky;
+  top: 100px; /* Adjust based on your nav header height */
+  z-index: 50;
+  margin: 20px 0;
   padding: 2rem;
   border: 2px solid var(--accent-cyan);
-  background: rgba(0, 217, 255, 0.05);
+  background: var(--card-bg);
   box-shadow: var(--glow-cyan);
   border-radius: var(--border-radius-md);
+  backdrop-filter: blur(10px);
+}
+.post-header::before {
+  display: none;
 }
 .post-header h1 {
   font-size: 2.5rem;
@@ -1864,7 +2034,9 @@ html[data-theme="light"] .home-page .btn-secondary:hover {
 /* Light theme green outlines for homepage sections */
 html[data-theme="light"] .home-page .hero {
   border-color: #059669;
-  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 html[data-theme="light"] .home-page .post-preview {
@@ -1872,7 +2044,9 @@ html[data-theme="light"] .home-page .post-preview {
 }
 
 html[data-theme="light"] .home-page .post-preview:hover {
-  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 html[data-theme="light"] .home-page .about-preview h2,
