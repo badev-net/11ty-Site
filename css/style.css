@@ -312,6 +312,8 @@ html[data-theme="light"] .footer-links a {
 .social-link svg {
   width: 20px;
   height: 20px;
+  stroke: currentColor;
+  display: block;
 }
 
 /* ============================================
