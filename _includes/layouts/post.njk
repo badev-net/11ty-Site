@@ -1,5 +1,6 @@
 ---
 layout: layouts/base.njk
+bodyClass: blog-post-page
 ---
 
 <article class="blog-post-single">
@@ -24,7 +25,5 @@ layout: layouts/base.njk
         {{ content | safe }}
     </div>
 
-    <footer class="post-footer">
-        <a href="/blog/" class="back-link">← Back to all posts</a>
-    </footer>
+    <a href="/blog/" class="back-link">← Back to all posts</a>
 </article>
