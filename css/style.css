@@ -221,6 +221,17 @@ html[data-theme="light"] .form-group textarea {
   border-color: var(--primary-color);
 }
 
+html[data-theme="light"] .back-link {
+  color: var(--text-primary);
+  border-color: #059669;
+}
+
+html[data-theme="light"] .back-link:hover {
+  background: #059669;
+  color: white;
+  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+}
+
 /* Light mode professional fonts */
 html[data-theme="light"] body {
   font-family:
@@ -1061,6 +1072,11 @@ h1 {
   animation: button-pulse 1s infinite; /* Added animation */
 }
 /* Single Blog Post */
+.blog-post-page header::before,
+.blog-post-page footer::before {
+  display: none;
+}
+
 .blog-post-single {
   max-width: 900px;
   margin: 0 auto;
@@ -1174,13 +1190,8 @@ h1 {
   text-shadow: var(--glow-cyan);
   border-bottom-width: 2px;
 }
-.post-footer {
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 2px solid var(--primary-color);
-  border-radius: var(--border-radius-sm);
-}
 .back-link {
+  margin-top: 4rem;
   color: #ffffff;
   text-decoration: none;
   font-family: "Orbitron", monospace;
