@@ -1119,7 +1119,7 @@ h1 {
 }
 .blog-intro {
   font-size: 1.1rem;
-  color: rgba(0, 0, 0, 0.8);
+  color: var(--accent-cyan);
   margin-bottom: 3rem;
   padding: 1.5rem;
   border-left: 3px solid var(--accent-cyan);
