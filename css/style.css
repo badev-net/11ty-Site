@@ -312,8 +312,12 @@ html[data-theme="light"] .footer-links a {
 .social-link svg {
   width: 20px;
   height: 20px;
-  stroke: currentColor;
+  stroke: var(--primary-color);
   display: block;
+}
+
+.social-link:hover svg {
+  stroke: var(--dark-bg);
 }
 
 /* ============================================
