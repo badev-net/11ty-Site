@@ -1,12 +1,31 @@
 # My 11ty Site
 
-A fast, accessible personal website built with Eleventy (11ty), focused on performance, simplicity, and maintainability.
+A fast, accessible personal website and blog built with Eleventy (11ty), focused on performance, simplicity, and maintainability.
 
 ![Homepage of badev.net](./images/uploads/homepage.png)
 
 ## 🛠 Tech Stack
 
-![Eleventy](https://img.shields.io/badge/Eleventy-000000?logo=eleventy&logoColor=white)
+| Category    | Tools                 |
+| ----------- | --------------------- |
+| Generator   | Eleventy (11ty)       |
+| CMS         | Decam CMS             |
+| Languages   | HTML, CSS, JavaScript |
+| Templating  | Nunjucks              |
+| Mail Server | Mailcow               |
+| Identity    | Github / Netlify      |
+| Deployment  | GitHub Pages          |
 
-- HTML, CSS, JavaScript
-- Nunjucks
+## 📝 TODO
+
+| Feature / Change                          | Impact                                                 |
+| ----------------------------------------- | ------------------------------------------------------ |
+| [ ] Visitor counter                       | Tracks site traffic                                    |
+| [ ] Update Resume / Skills                | Highlight skills and professional experience           |
+| [ ] Downloadable PDF Resume               | Makes it easy for everyone to view and save my resume. |
+| [ ] Decap Admin UX / Workflow / Preview   | Makes content editing more user-friendly and intuitive |
+| [ ] Dark/light mode for Admin             | Improves admin panel readability and styling           |
+| [ ] Set up newsletter signup with Mailcow | Builds a subscriber base for updates and announcements |
+| [ ] RSS Feed                              | Allows users to subscribe to blog updates              |
+| [ ] Implement search for blog posts       | Helps visitors find content quickly                    |
+| [ ] Implement comment system              | Visitors can engage and share ideas                    |
