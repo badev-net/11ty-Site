@@ -20,9 +20,9 @@ A fast, accessible personal website and blog built with Eleventy (11ty), focused
 
 | Feature / Change                          | Impact                                                 |
 | ----------------------------------------- | ------------------------------------------------------ |
+| [x] Mobile Version                        | Ensure site is fully working on mobile                 |
 | [ ] Contact Form                          | Let users reach me via e-mail                          |
 | [ ] Sitemap                               | Improve SEO and indexing                               |
-| [ ] Mobile Version                        | Ensure site is fully working on mobile                 |
 | [ ] Visitor counter                       | Tracks site traffic                                    |
 | [ ] Update Resume / Skills                | Highlight skills and professional experience           |
 | [ ] Downloadable PDF Resume               | Makes it easy for everyone to view and save my resume  |

@@ -16,7 +16,10 @@
     <header>
         <nav>
             <a href="/" class="logo">{{ site.name }}</a>
-            <ul>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="nav-toggle-icon"></span>
+            </button>
+            <ul id="nav-menu" class="nav-menu">
                 <li><a href="/">Home</a></li>
                 <li><a href="/resume/">Resume</a></li>
                 <li><a href="/blog/">Blog</a></li>
@@ -111,6 +114,58 @@
 
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+          });
+        }
+      })();
+
+      // Mobile Navigation Toggle
+      (function() {
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        // Create overlay element
+        const overlay = document.createElement('div');
+        overlay.className = 'nav-overlay';
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(overlay);
+
+        function toggleMenu() {
+          const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+          navToggle.setAttribute('aria-expanded', !isOpen);
+          navMenu.classList.toggle('is-open', !isOpen);
+          overlay.classList.toggle('is-visible', !isOpen);
+          document.body.style.overflow = !isOpen ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+          navToggle.setAttribute('aria-expanded', 'false');
+          navMenu.classList.remove('is-open');
+          overlay.classList.remove('is-visible');
+          document.body.style.overflow = '';
+        }
+
+        if (navToggle && navMenu) {
+          navToggle.addEventListener('click', toggleMenu);
+          overlay.addEventListener('click', closeMenu);
+
+          // Close on Escape key
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+              closeMenu();
+              navToggle.focus();
+            }
+          });
+
+          // Close menu when clicking a link
+          navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', closeMenu);
+          });
+
+          // Close menu on resize to desktop
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+              closeMenu();
+            }
           });
         }
       })();
