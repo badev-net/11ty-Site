@@ -431,13 +431,13 @@ html[data-theme="light"] .post-header {
 }
 
 .home-page .hero {
-  background: var(--card-bg) 
-  border-color: var(--primary-color) 
+  background: var(--card-bg);
+  border-color: var(--primary-color);
 }
 
 .home-page .post-preview {
-  background: var(--terminal-bg) 
-  border-color: var(--primary-color) 
+  background: var(--terminal-bg);
+  border-color: var(--primary-color);
 }
 
 /* Footer icon links */
@@ -656,20 +656,19 @@ html[data-theme="light"] .nav-toggle:hover {
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
-  z-index: 140;
+  z-index: 130;
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .nav-overlay.is-visible {
   display: block;
   opacity: 1;
-}
-
-* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  pointer-events: auto;
 }
 /* Animated Matrix Background - toned to blue */
 body {
@@ -753,7 +752,7 @@ header {
     inset 0 0 10px rgba(0, 217, 255, 0.05);
   position: sticky;
   top: 20px;
-  z-index: 100;
+  z-index: 120;
   backdrop-filter: blur(10px);
   animation: flicker 0.15s infinite;
 }
@@ -1967,6 +1966,7 @@ footer::before {
     transition: right 0.3s ease-in-out;
     z-index: 150;
     overflow-y: auto;
+    pointer-events: auto;
   }
 
   .nav-menu.is-open {
