@@ -49,34 +49,269 @@
 <article class="resume">
     <header class="resume-header">
         <h1>Nikola Badev</h1>
+        
+        <p class="resume-subtitle">Purple Team Analyst | Adversary Simulation | Physical &amp; Cyber Systems Security</p>
+        
         <div class="contact-info">
-            <p>nikola@badev.net | +1 (862) 832-7365 | USA</p>
-            
+            <p>New Jersey | (862) 832-7365 | nikola@badev.net</p>
+            <p>badev.net/resume</p>
             <p>GitHub: github.com/badev-net</p>
-            <p>Website: badev.net</p>
+            
         </div>
+        <button type="button" class="btn-download" id="download-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download Resume
+        </button>
     </header>
+
+    <!-- Download Form Modal -->
+    <div class="download-modal" id="download-modal">
+        <div class="download-modal-content">
+            <button type="button" class="modal-close" id="modal-close">&times;</button>
+            <h3>Download Resume</h3>
+            <p>Please provide your details to download the resume.</p>
+            <form id="resume-download-form" action="/api/resume-download" method="POST">
+                <div class="form-group">
+                    <label for="download-name">Name</label>
+                    <input type="text" id="download-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="download-email">Email</label>
+                    <input type="email" id="download-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="download-company">Company (Optional)</label>
+                    <input type="text" id="download-company" name="company">
+                </div>
+                <button type="submit" class="submit-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF
+                </button>
+            </form>
+            <div id="form-message" class="form-message"></div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const btn = document.getElementById('download-btn');
+        const modal = document.getElementById('download-modal');
+        const closeBtn = document.getElementById('modal-close');
+        const form = document.getElementById('resume-download-form');
+        const message = document.getElementById('form-message');
+
+        btn.addEventListener('click', () => modal.classList.add('is-open'));
+        closeBtn.addEventListener('click', () => modal.classList.remove('is-open'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('is-open');
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try {
+                const response = await fetch('/api/resume-download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: form.name.value,
+                        email: form.email.value,
+                        company: form.company.value || 'Not provided'
+                    })
+                });
+
+                if (response.ok) {
+                    message.textContent = 'Thank you! Your download will start shortly.';
+                    message.className = 'form-message success';
+                    setTimeout(() => {
+                        window.location.href = '/files/resume.pdf';
+                        modal.classList.remove('is-open');
+                        form.reset();
+                    }, 1500);
+                } else {
+                    throw new Error('Failed to submit');
+                }
+            } catch (err) {
+                message.textContent = 'Something went wrong. Please try again.';
+                message.className = 'form-message error';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Download PDF';
+            }
+        });
+    })();
+    </script>
 
     
     <section class="resume-section">
         <h2>Professional Summary</h2>
-        <p>Results-driven professional with X years of experience in [your field]. Proven track record of delivering high-quality solutions and driving business growth. Skilled in project management, team leadership, and strategic planning. Passionate about leveraging technology to solve complex problems and create meaningful impact.</p>
+        <div class="summary-content">
+            <p>Security analyst with hands-on experience across cyber and physical security systems, incident response, network defense, and identity management. At AIG, I identified a credential cloning vulnerability in our global access card system, demonstrated the exploit to senior leadership, and drove a multi-site hardware remediation program affecting priority locations worldwide.</p>
+
+<p>I run a home lab with a 24-bay PowerEdge R720, pfSense firewall with Suricata IDS/IPS, segmented VLANs, honeypots, and self-hosted services (it also doubles as a space heater for my 3D printer). I've been building and securing infrastructure since I was a kid—ran game servers through high school with 200+ concurrent paying users, handling backend operations and uptime.</p>
+
+        </div>
     </section>
     
 
     
     <section class="resume-section">
-        <h2>Skills</h2>
+        <h2>Core Technical Skills</h2>
         <div class="skills-list">
             
             <div class="skill-category">
-                <h3>Technical Skills</h3>
-                <p>JavaScript, Python, React, Node.js, SQL, Git, AWS, Docker</p>
+                <h3>Security Operations &amp; Detection</h3>
+                <ul>
+                    
+                    <li>SIEM/SOAR platform management, alert triage, correlation, and workflow automation</li>
+                    
+                    <li>Incident response execution across the full lifecycle: detection, containment, eradication, recovery</li>
+                    
+                    <li>Threat hunting using endpoint, network, and log telemetry</li>
+                    
+                    <li>IDS/IPS deployment, tuning, and rule development (Suricata, Snort)</li>
+                    
+                    <li>Network traffic and PCAP analysis (Wireshark, Zeek)</li>
+                    
+                    <li>Vulnerability scanning and remediation tracking (Nessus)</li>
+                    
+                </ul>
             </div>
             
             <div class="skill-category">
-                <h3>Professional Skills</h3>
-                <p>Project Management, Team Leadership, Agile Methodologies, Strategic Planning, Data Analysis, Technical Writing, Stakeholder Communication</p>
+                <h3>DFIR &amp; Threat Analysis</h3>
+                <ul>
+                    
+                    <li>Host-based and network-based forensic investigations (SIFT, FLARE VM)</li>
+                    
+                    <li>Memory acquisition and analysis (Volatility)</li>
+                    
+                    <li>Log analysis, event correlation, and timeline reconstruction (Splunk, Sysinternals)</li>
+                    
+                    <li>Malware behavior analysis in isolated environments</li>
+                    
+                    <li>Detection and investigation of DNS tunneling, proxy evasion, and C2 communications</li>
+                    
+                    <li>MITRE ATT&amp;CK framework mapping for threat analysis and detection engineering</li>
+                    
+                    <li>NIST incident response and risk management frameworks</li>
+                    
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Windows, Identity &amp; Endpoint Security</h3>
+                <ul>
+                    
+                    <li>Active Directory administration, security hardening, and attack surface reduction</li>
+                    
+                    <li>Group Policy design and enforcement for security controls</li>
+                    
+                    <li>Identity and access management: SSO, MFA, authentication flows, privilege management</li>
+                    
+                    <li>Endpoint protection deployment and management (Microsoft Defender, BitLocker, DLP)</li>
+                    
+                    <li>Windows Server administration (2016/2019): DNS, DHCP, GPO, permissions</li>
+                    
+                    <li>PowerShell scripting for security automation, auditing, and incident response</li>
+                    
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Networking &amp; Infrastructure Security</h3>
+                <ul>
+                    
+                    <li>Network architecture design: LAN/WAN, segmentation, DMZ implementation</li>
+                    
+                    <li>Routing, switching, VLANs, trunking, and ACL configuration</li>
+                    
+                    <li>Firewall deployment and rule management (pfSense)</li>
+                    
+                    <li>VPN configuration and secure remote access (IPSec, WireGuard, OpenVPN)</li>
+                    
+                    <li>Network monitoring, diagnostics, and troubleshooting</li>
+                    
+                    <li>UniFi network management and VLAN segmentation</li>
+                    
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Cloud &amp; Virtualization</h3>
+                <ul>
+                    
+                    <li>Experience working in hybrid environments with cloud and on-prem infrastructure</li>
+                    
+                    <li>AWS and Azure security controls, IAM policies, logging and monitoring</li>
+                    
+                    <li>Container security and orchestration (Docker, Kubernetes)</li>
+                    
+                    <li>Hypervisor deployment and management (Proxmox, ESXi, VMware, VirtualBox)</li>
+                    
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Physical Security &amp; Offensive Testing</h3>
+                <ul>
+                    
+                    <li>Access control system security (125kHz, iClass, MIFARE, SEOS)</li>
+                    
+                    <li>RFID/NFC vulnerability assessment and credential cloning (Proxmark, Flipper Zero)</li>
+                    
+                    <li>Video management and intrusion detection system administration</li>
+                    
+                    <li>Network reconnaissance, enumeration, and credential capture</li>
+                    
+                    <li>Active follower of red team research, threat actor TTPs, and offensive security communities — tracks emerging techniques and tradecraft for defensive application</li>
+                    
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Scripting &amp; Development</h3>
+                <ul>
+                    
+                    <li>Python: security automation, log parsing, custom tooling, data analysis</li>
+                    
+                    <li>SQL: data extraction and manipulation, query optimization, SQL injection testing and exploitation</li>
+                    
+                    <li>Lua: server-side scripting, plugin development, backend configuration for production game servers (200+ concurrent users)</li>
+                    
+                    <li>Java, Visual Basic, HTML: read, analyze, and modify code for vulnerability assessment and incident response</li>
+                    
+                    <li>Production experience: built custom plugins, managed backend systems, payment processing, and anti-cheat for live infrastructure</li>
+                    
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Systems Administration &amp; Platforms</h3>
+                <ul>
+                    
+                    <li>Windows: 7/8/10/11, Server 2016/2019 — deployment, hardening, Group Policy, Active Directory, production troubleshooting</li>
+                    
+                    <li>Linux: Kali, Ubuntu, Debian, RHEL/CentOS, TailsOS — primary environment for security operations, server infrastructure, daily use</li>
+                    
+                    <li>macOS, iOS, Android, FreeBSD, GrapheneOS — administration, security configuration, mobile security</li>
+                    
+                    <li>Hypervisors: Proxmox, ESXi, VMware, VirtualBox — deployment and management of virtualized infrastructure</li>
+                    
+                    <li>Hardware hacking and modding: iOS jailbreaking, Android rooting, Xbox JTAG — understanding systems at the firmware and bootloader level since teen years</li>
+                    
+                </ul>
             </div>
             
         </div>
@@ -87,88 +322,156 @@
     <section class="resume-section">
         <h2>Professional Experience</h2>
         
-        <article class="job">
-            <h3>Senior Software Engineer</h3>
-            <p class="company">Tech Company Inc. | Houston, TX</p>
-            <p class="dates">January 2022 - Present</p>
+        <div class="job">
+            <div class="job-header">
+                <strong>American International Group, Inc (AIG)</strong> – Jersey City, NJ
+            </div>
+            <div class="job-title-date">
+                <em>Physical Security Systems Analyst II</em> | Jan 2024 – Present
+            </div>
             <ul class="responsibilities">
                 
-                <li>Led development of customer-facing web applications serving 100K+ users, resulting in 25% increase in user engagement</li>
+                <li>Identified a critical credential cloning vulnerability in AIG&#39;s global access card system. Demonstrated that iClass Standard and Elite keys could be copied and replayed to gain unauthorized building access. Presented findings to senior management, directly driving approval for a tiered global security technology refresh.</li>
                 
-                <li>Architected and implemented microservices infrastructure using Node.js and Docker, improving system scalability by 40%</li>
+                <li>Led technical planning for remediation alongside HID and senior leadership. Expanded scope beyond card readers to include intrusion detection, access control, and video management system upgrades at priority sites worldwide.</li>
                 
-                <li>Mentored team of 5 junior developers, conducting code reviews and providing technical guidance</li>
+                <li>Designed and implemented a centralized Incident Management System that transformed alert handling. Identified critical monitoring gaps, which led to establishing a dedicated Active Monitoring team now triaging events from badge anomalies to emergency door releases.</li>
                 
-                <li>Collaborated with product managers and designers to define project requirements and deliver features on schedule</li>
+                <li>Partner with security integrators and internal IT teams to commission, upgrade, and troubleshoot physical security systems for new sites and major office upgrades globally.</li>
                 
-                <li>Reduced application load time by 60% through performance optimization and caching strategies</li>
+                <li>Maintain SQL-based tracking systems for credential lifecycle management and onboarding workflows.</li>
                 
             </ul>
-        </article>
+        </div>
         
-        <article class="job">
-            <h3>Software Engineer</h3>
-            <p class="company">Digital Solutions LLC | Houston, TX</p>
-            <p class="dates">June 2019 - December 2021</p>
+        <div class="job">
+            <div class="job-header">
+                <strong>Allied Universal Security Services (Client - AIG)</strong> – Jersey City, NJ
+            </div>
+            <div class="job-title-date">
+                <em>Security Systems Analyst</em> | Jun 2023 – Jan 2024
+            </div>
             <ul class="responsibilities">
                 
-                <li>Developed and maintained full-stack web applications using React, Node.js, and PostgreSQL</li>
+                <li>Configured, programmed, and deployed intrusion detection, access control, and video management systems for global AIG sites.</li>
                 
-                <li>Implemented automated testing suite that increased code coverage from 45% to 85%</li>
+                <li>Served as an escalation point for hardware and software issues, coordinating cross-functional resolution with vendors and internal IT.</li>
                 
-                <li>Participated in agile development process including sprint planning, daily standups, and retrospectives</li>
-                
-                <li>Integrated third-party APIs and payment processing systems for e-commerce platform</li>
-                
-                <li>Contributed to technical documentation and knowledge sharing within the team</li>
+                <li>Conducted system health assessments and CCTV forensic reviews supporting incident investigations.</li>
                 
             </ul>
-        </article>
+        </div>
         
-        <article class="job">
-            <h3>Junior Developer</h3>
-            <p class="company">StartUp Ventures | Houston, TX</p>
-            <p class="dates">May 2018 - May 2019</p>
+        <div class="job">
+            <div class="job-header">
+                <strong>Securitas Security Services USA (Client - Novartis)</strong> – East Hanover, NJ
+            </div>
+            <div class="job-title-date">
+                <em>Security Operations Center Analyst</em> | Nov 2022 – Jun 2023
+            </div>
             <ul class="responsibilities">
                 
-                <li>Built responsive web interfaces using HTML, CSS, JavaScript, and React</li>
+                <li>Monitored alarms, CCTV, and intrusion detection platforms in a 24/7 SOC environment for a pharmaceutical facility.</li>
                 
-                <li>Worked closely with senior developers to learn best practices and coding standards</li>
+                <li>Executed incident response procedures, coordinating with law enforcement and emergency services as required.</li>
                 
-                <li>Fixed bugs and implemented new features based on user feedback</li>
-                
-                <li>Assisted in database design and optimization for improved query performance</li>
+                <li>Managed centralized alarm monitoring, radio dispatch, incident documentation, and remote panel programming.</li>
                 
             </ul>
-        </article>
+        </div>
+        
+        <div class="job">
+            <div class="job-header">
+                <strong>Kollins Communications</strong> – Ramsey, NJ
+            </div>
+            <div class="job-title-date">
+                <em>Digital Signage Support Technician III</em> | Mar 2022 – Nov 2022
+            </div>
+            <ul class="responsibilities">
+                
+                <li>Troubleshot, maintained, and deployed digital signage and distributed AV infrastructure.</li>
+                
+                <li>Performed preventative maintenance and managed customer support via Zendesk.</li>
+                
+            </ul>
+        </div>
         
     </section>
     
 
     
     <section class="resume-section">
-        <h2>Education</h2>
+        <h2>Home Lab & Projects</h2>
         
-        <article class="education-item">
-            <h3>Bachelor of Science in Computer Science</h3>
-            <p>University of Texas | Austin, TX</p>
-            <p class="dates">May 2018</p>
-            <p>GPA: 3.7</p>
-        </article>
+        <div class="project-category">
+            <h3>Home Security Infrastructure</h3>
+            <ul>
+                
+                <li>24-bay Dell PowerEdge R720 in a server rack. Runs Proxmox hosting multiple VMs and Docker containers.</li>
+                
+                <li>pfSense firewall with Suricata IDS/IPS for traffic inspection and threat detection. Snort deployed for additional logging and alerting.</li>
+                
+                <li>Network segmented via UniFi into dedicated VLANs for security operations, IoT, and server infrastructure.</li>
+                
+                <li>Self-hosted services: Mailcow mail server (SPF/DKIM/DMARC), honeypots, and portfolio site (badev.net) deployed via GitHub/Cloudflare.</li>
+                
+                <li>Cisco equipment for hands-on routing and switching practice beyond managed UniFi gear.</li>
+                
+            </ul>
+        </div>
+        
+        <div class="project-category">
+            <h3>DFIR &amp; Threat Analysis</h3>
+            <ul>
+                
+                <li>Forensic investigations using SIFT Workstation and FLARE VM.</li>
+                
+                <li>PCAP analysis with Zeek: malware behavior, DNS tunneling, and C2 communication detection.</li>
+                
+                <li>Memory forensics with Volatility; timeline reconstruction using Splunk and log parsing tools.</li>
+                
+            </ul>
+        </div>
+        
+        <div class="project-category">
+            <h3>Network Security &amp; Offensive Testing</h3>
+            <ul>
+                
+                <li>Network traffic interception and credential exposure analysis using Wireshark.</li>
+                
+                <li>Host discovery, port scanning, and service enumeration with nmap and native OS tools.</li>
+                
+                <li>Practiced exploitation techniques: ARP spoofing, traffic redirection, session hijacking (controlled environments).</li>
+                
+            </ul>
+        </div>
         
     </section>
     
 
     
     <section class="resume-section">
-        <h2>Certifications</h2>
-        <ul>
-            
-            <li>AWS Certified Solutions Architect - Amazon Web Services (2023)</li>
-            
-            <li>Professional Scrum Master I - Scrum.org (2022)</li>
-            
-        </ul>
+        <h2>Education & Certifications</h2>
+
+        
+        
+        <p>Security+ – In Progress</p>
+        
+        <p>Google Cybersecurity Certificate – 2024</p>
+        
+        <p>Synergis Technical Certification (SC-STC-001-5.xx) – 2023 - 2026</p>
+        
+        <p>Omnicast Technical Certification (SC-OTC-001-5.xx) – 2023 - 2026</p>
+        
+        <p>Cybersecurity Professional Certificate – New Jersey Institute of Technology – 2023</p>
+        
+        
+
+        
+        
+        <p>Cybersecurity Studies – Purdue University – Purdue Polytechnic Institute, 2017–2019</p>
+        
+        
     </section>
     
 </article>
