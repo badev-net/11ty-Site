@@ -132,10 +132,17 @@
                 });
 
                 if (response.ok) {
+                    const result = await response.json();
                     message.textContent = 'Thank you! Your download will start shortly.';
                     message.className = 'form-message success';
                     setTimeout(() => {
-                        window.location.href = '/files/resume.pdf';
+                        const downloadUrl = result.downloadUrl || '/files/Nikola_Badev_resume.pdf';
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.download = 'Nikola_Badev_resume.pdf';
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
                         modal.classList.remove('is-open');
                         form.reset();
                     }, 1500);
