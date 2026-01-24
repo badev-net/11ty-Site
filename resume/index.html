@@ -74,7 +74,7 @@
             <button type="button" class="modal-close" id="modal-close">&times;</button>
             <h3>Download Resume</h3>
             <p>Please provide your details to download the resume.</p>
-            <form id="resume-download-form" action="/api/resume-download" method="POST">
+            <form id="resume-download-form" action="https://resume-dl.nbadev01.workers.dev" method="POST">
                 <div class="form-group">
                     <label for="download-name">Name</label>
                     <input type="text" id="download-name" name="name" required>
@@ -121,7 +121,7 @@
             submitBtn.textContent = 'Sending...';
 
             try {
-                const response = await fetch('/api/resume-download', {
+                const response = await fetch('https://resume-dl.nbadev01.workers.dev', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -475,6 +475,7 @@
     </section>
     
 </article>
+
     </main>
 
     <footer>
