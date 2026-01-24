@@ -87,6 +87,9 @@
                     <label for="download-company">Company (Optional)</label>
                     <input type="text" id="download-company" name="company">
                 </div>
+                <div class="form-group">
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAACO5phJOlqGa3ZBx"></div>
+                </div>
                 <button type="submit" class="submit-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -117,6 +120,14 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
+            const token = window.turnstile ? window.turnstile.getResponse() : '';
+
+            if (!token) {
+                message.textContent = 'Please complete the security check.';
+                message.className = 'form-message error';
+                return;
+            }
+
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
 
@@ -127,7 +138,8 @@
                     body: JSON.stringify({
                         name: form.name.value,
                         email: form.email.value,
-                        company: form.company.value || 'Not provided'
+                        company: form.company.value || 'Not provided',
+                        turnstileToken: token
                     })
                 });
 
@@ -145,6 +157,7 @@
                         link.remove();
                         modal.classList.remove('is-open');
                         form.reset();
+                        if (window.turnstile) window.turnstile.reset();
                     }, 1500);
                 } else {
                     throw new Error('Failed to submit');
@@ -155,10 +168,12 @@
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Download PDF';
+                if (window.turnstile) window.turnstile.reset();
             }
         });
     })();
     </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     
     <section class="resume-section">
