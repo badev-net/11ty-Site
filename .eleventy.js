@@ -6,6 +6,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("images/uploads");
+  eleventyConfig.addPassthroughCopy("files");
 
   // Date filter for blog posts
   eleventyConfig.addFilter("postDate", (dateObj) => {
