@@ -5,20 +5,25 @@ description: Personal portfolio and blog
 ---
 
 <div class="home-page">
-    <section class="hero">
-        <h1>Hello, I'm Nikola Badev</h1>
-        <p class="tagline">Security Enthusiast | Problem Solver | Lifelong Learner</p>
-        <p class="intro">Welcome to my personal corner of the internet. I'm a software engineer based in Houston, Texas, passionate about building elegant solutions to complex problems.</p>
-        <div class="cta-buttons">
-            <a href="/resume/" class="btn btn-primary">View Resume</a>
-            <a href="/blog/" class="btn btn-secondary">Read My Blog</a>
-        </div>
-    </section>
-
-    <section class="about-preview">
-        <h2>About Me</h2>
-        <p>I specialize in full-stack web development with a focus on modern JavaScript frameworks and cloud technologies. With a strong foundation in computer science and years of hands-on experience, I love tackling challenging projects that make a real impact.</p>
-        <p>When I'm not coding, you can find me exploring new technologies, contributing to open source projects, or sharing what I've learned through writing and mentoring.</p>
+<section class="hero">
+    <h1>Hello, I'm Nikola Badev</h1>
+    <p class="tagline">Security Enthusiast | Privacy Advocate | Lifelong Learner</p>
+  <p class="intro">
+       Welcome to my corner of the internet. I'm a security analyst based in the USA who looks for real-world gaps across cyber and physical systems and turns those findings into actionable remediation. I focus on practical, threat-informed security that gives leadership clear visibility into risk and how to remediate it.
+    </p>
+    <p class="intro">
+        I learn by breaking things, fixing them, and understanding why they failed. Whether it's enterprise infrastructure or my own home lab, I’m always digging into how systems behave under pressure and what it takes to make them resilient.
+    </p>
+    <div class="cta-buttons">
+        <a href="/resume/" class="btn btn-primary">View Resume</a>
+        <a href="/blog/" class="btn btn-secondary">Read My Blog</a>
+    </div>
+</section>
+        <section class="about-preview">
+            <h2>About Me</h2>
+            <p>I got my start in security by building and running systems long before I ever called it “security”. Early on, I was modding hardware, reverse-engineering console behavior, and operating game servers with 200+ concurrent players—writing custom plugins, building anti-cheat logic, and keeping the backend stable under heavy load. That mix of engineering, adversarial problem-solving, and real-world operational pressure is what ultimately pulled me into cybersecurity.
+            <p>
+            <p>Outside of work I run a home lab with segmented networks, IDS/IPS, and more self-hosted services. I write about all of the tools, tradecraft, and lessons learned along the way in my blog!</p>
     </section>
 
     <section class="recent-posts">

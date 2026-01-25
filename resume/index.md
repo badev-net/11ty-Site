@@ -144,7 +144,7 @@ projects:
     items:
       - "Network traffic interception and credential exposure analysis using Wireshark."
       - "Host discovery, port scanning, and service enumeration with nmap and native OS tools."
-      - "Practiced exploitation techniques: ARP spoofing, traffic redirection, session hijacking (controlled environments)."
+      - "Practiced exploitation techniques: ARP spoofing, traffic redirection, MiTM, session hijacking and SMB relay attacks."
 
 certifications:
   - name: Security+
