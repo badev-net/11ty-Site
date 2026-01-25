@@ -1611,6 +1611,9 @@ footer::before {
   content: " ]";
   color: var(--primary-color);
 }
+.footer-credit a {
+  color: #ff2d9a;
+}
 /* Home Page */
 .home-page {
   max-width: 1000px;
