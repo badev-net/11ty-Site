@@ -111,12 +111,22 @@
         const form = document.getElementById('resume-download-form');
         const message = document.getElementById('form-message');
 
-        btn.addEventListener('click', () => modal.classList.add('is-open'));
-        closeBtn.addEventListener('click', () => modal.classList.remove('is-open'));
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.classList.remove('is-open');
+        btn.addEventListener('click', () => {
+            modal.classList.add('is-open');
+            document.body.classList.add('body--modal-open');
         });
 
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('is-open');
+            document.body.classList.remove('body--modal-open');    
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+            modal.classList.remove('is-open');
+            document.body.classList.remove('body--modal-open');
+         }
+        });
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
