@@ -1,6 +1,12 @@
 /* Professional Hacker Theme - Soft Blue Aesthetic with Light/Dark Mode */
 @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap");
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* ============================================
    DARK THEME (Default)
    ============================================ */
@@ -2580,6 +2586,12 @@ html[data-theme="light"] .recent-posts {
     left: 10px;
   }
 
+  .btn-download {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1.25rem;
+  }
+
   .contact-info {
     font-size: 0.8rem;
   }
@@ -2763,6 +2775,29 @@ html[data-theme="light"] .recent-posts {
     margin-top: 2.5rem;
     font-size: 0.75rem;
     padding: 0.6rem 1rem;
+  }
+  .download-modal {
+    align-items: flex-start !important; /* start near top on phones */
+    padding: 1rem !important;
+  }
+
+  .download-modal-content {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    max-height: calc(100vh - 2.5rem) !important;
+  }
+
+  .download-modal-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .download-modal-content .form-group input {
+    font-size: 0.95rem;
+  }
+
+  .download-modal-content .submit-btn {
+    padding: 0.85rem;
+    font-size: 0.85rem;
   }
 }
 
@@ -3031,22 +3066,22 @@ html[data-theme="light"] .btn-download {
 html[data-theme="light"] .btn-download:hover {
   background: #059669;
   color: white;
-  box-shadow: 0 0 6px #059669, 0 0 12px #059669;
+  box-shadow:
+    0 0 6px #059669,
+    0 0 12px #059669;
 }
 
 /* Download Modal */
 .download-modal {
+  position: fixed !important;
+  inset: 0 !important; /* top:0; right:0; bottom:0; left:0 */
   display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.5rem !important;
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
+  z-index: 9999 !important; /* higher than sticky header (120) */
 }
 
 .download-modal.is-open {
@@ -3054,15 +3089,12 @@ html[data-theme="light"] .btn-download:hover {
 }
 
 .download-modal-content {
-  position: relative;
-  background: var(--card-bg);
-  border: 2px solid var(--accent-cyan);
-  border-radius: var(--border-radius-lg);
-  padding: 2.5rem;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: var(--glow-cyan), 0 20px 60px rgba(0, 0, 0, 0.5);
-  animation: modalSlideIn 0.3s ease;
+  position: relative !important;
+  width: 100% !important;
+  max-width: 450px !important;
+  max-height: calc(100vh - 3rem) !important; /* fit inside screen */
+  overflow-y: auto !important; /* scroll inside if tall */
+  margin: 0 auto;
 }
 
 @keyframes modalSlideIn {
@@ -3198,7 +3230,9 @@ html[data-theme="light"] .btn-download:hover {
 html[data-theme="light"] .download-modal-content {
   background: var(--card-bg);
   border-color: #059669;
-  box-shadow: 0 0 6px #059669, 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 6px #059669,
+    0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
 html[data-theme="light"] .download-modal-content h3 {
