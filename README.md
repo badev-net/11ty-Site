@@ -20,12 +20,12 @@ A fast, accessible personal website and blog built with Eleventy (11ty), focused
 
 | Feature / Change                          | Impact                                                 |
 | ----------------------------------------- | ------------------------------------------------------ |
+| [x] Update Resume / Skills                | Highlight skills and professional experience           |
+| [x] Downloadable PDF Resume               | Makes it easy for everyone to view and save my resume  |
 | [x] Mobile Version                        | Ensure site is fully working on mobile                 |
-| [ ] Contact Form                          | Let users reach me via e-mail                          |
+| [x] Contact Form                          | Let users reach me via e-mail                          |
 | [ ] Sitemap                               | Improve SEO and indexing                               |
 | [ ] Visitor counter                       | Tracks site traffic                                    |
-| [ ] Update Resume / Skills                | Highlight skills and professional experience           |
-| [ ] Downloadable PDF Resume               | Makes it easy for everyone to view and save my resume  |
 | [ ] Decap Admin UX / Workflow / Preview   | Makes content editing more user-friendly and intuitive |
 | [ ] Dark/light mode for Admin             | Improves admin panel readability and styling           |
 | [ ] Set up newsletter signup with Mailcow | Builds a subscriber base for updates and announcements |
