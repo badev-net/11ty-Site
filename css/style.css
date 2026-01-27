@@ -257,6 +257,11 @@ html[data-theme="light"] .contact-form h2 {
     0 0 6px #059669;
 }
 
+html[data-theme="light"] .contact-hero h1 {
+  color: #059669;
+  text-shadow: none;
+}
+
 html[data-theme="light"] .education-item {
   background: var(--terminal-bg);
   border-color: var(--accent-purple);
@@ -1037,16 +1042,22 @@ h1 {
     0.025em 0.05em 0 #a855f7;
 }
 @keyframes glitch-subtle {
-  0%, 92%, 100% {
+  0%,
+  92%,
+  100% {
     text-shadow: none;
     transform: none;
   }
   93% {
-    text-shadow: -2px 0 #00d9ff, 2px 0 #ff2d95;
+    text-shadow:
+      -2px 0 #00d9ff,
+      2px 0 #ff2d95;
     transform: translateX(-1px);
   }
   94% {
-    text-shadow: 2px 0 #00d9ff, -2px 0 #ff2d95;
+    text-shadow:
+      2px 0 #00d9ff,
+      -2px 0 #ff2d95;
     transform: translateX(1px);
   }
   95% {
@@ -1056,23 +1067,33 @@ h1 {
 }
 @keyframes glitch-intense {
   0% {
-    text-shadow: -2px 0 #00d9ff, 2px 0 #ff2d95;
+    text-shadow:
+      -2px 0 #00d9ff,
+      2px 0 #ff2d95;
     transform: translateX(-2px);
   }
   25% {
-    text-shadow: 2px 0 #00d9ff, -2px 0 #ff2d95;
+    text-shadow:
+      2px 0 #00d9ff,
+      -2px 0 #ff2d95;
     transform: translateX(2px);
   }
   50% {
-    text-shadow: -1px 0 #a855f7, 1px 0 #00d9ff;
+    text-shadow:
+      -1px 0 #a855f7,
+      1px 0 #00d9ff;
     transform: translateX(-1px);
   }
   75% {
-    text-shadow: 1px 0 #ff2d95, -1px 0 #a855f7;
+    text-shadow:
+      1px 0 #ff2d95,
+      -1px 0 #a855f7;
     transform: translateX(1px);
   }
   100% {
-    text-shadow: -2px 0 #00d9ff, 2px 0 #ff2d95;
+    text-shadow:
+      -2px 0 #00d9ff,
+      2px 0 #ff2d95;
     transform: translateX(-2px);
   }
 }
@@ -1871,6 +1892,10 @@ html[data-theme="light"] .footer-credit a {
   margin-bottom: 0.5rem;
 }
 
+.contact-page main {
+  padding-top: 2rem;
+}
+
 .contact-form {
   max-width: 800px;
   margin: 0 auto;
@@ -2528,8 +2553,6 @@ html[data-theme="light"] .recent-posts {
   border-bottom: 3px solid var(--primary-color);
   position: relative;
 }
-
-
 
 .home-page .about-preview h2::after {
   content: "";
