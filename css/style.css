@@ -2304,10 +2304,15 @@ html[data-theme="light"] .download-modal-content .submit-btn:hover {
 }
 
 .home-page .tagline {
-  font-size: 1.125rem;
+  font-size: clamp(0.85rem, 2.6vw, 1.125rem);
   color: var(--accent-cyan);
   margin-bottom: 1.5rem;
   font-weight: 500;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
 }
 
 .home-page .intro {
