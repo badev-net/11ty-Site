@@ -72,6 +72,7 @@ bodyClass: contact-page
     TURNSTILE_HTTP_ERROR: 'Security verification service is unavailable. Please try again later.',
     TURNSTILE_PARSE_ERROR: 'Unexpected response from security service. Please try again later.',
     TURNSTILE_HOST_MISMATCH: 'Security verification failed for this website. Please refresh the page and try again.',
+    TURNSTILE_MISCONFIGURED: 'Security service is misconfigured. Please try again later.',
     RATE_LIMIT_EXCEEDED: 'Too many messages in a short time. Please wait a few minutes and try again.',
     PAYLOAD_TOO_LARGE: 'Your message was too large. Please shorten it and try again.',
     INVALID_CONTENT_TYPE: 'Unexpected request format. Please refresh the page and try again.',
@@ -79,22 +80,27 @@ bodyClass: contact-page
     SERVER_MISCONFIGURED: 'The server is misconfigured. Please try again later.',
     RELAY_FAILED: 'Unable to send your message right now. Please try again later.',
     ORIGIN_FORBIDDEN: 'This form can only be submitted from badev.net.',
-    METHOD_NOT_ALLOWED: 'Unexpected request method. Please refresh the page and try again.',
-    TURNSTILE_MISCONFIGURED: 'Security service is misconfigured. Please try again later.'
+    METHOD_NOT_ALLOWED: 'Unexpected request method. Please refresh the page and try again.'
   };
 
-  function showStatus(text, type) {
+  function showStatus(text, type, code) {
     status.textContent = text;
     status.className = 'form-message ' + (type === 'error' ? 'error' : 'success');
     status.style.display = 'block';
+
+    if (code) {
+      status.setAttribute('data-code', code);
+    } else {
+      status.removeAttribute('data-code');
+    }
   }
 
   // Update Turnstile theme based on current theme
   function updateTurnstileTheme() {
-    const turnstile = document.querySelector('.cf-turnstile');
-    if (turnstile) {
+    const turnstileEl = document.querySelector('.cf-turnstile');
+    if (turnstileEl) {
       const theme = document.documentElement.getAttribute('data-theme') || 'dark';
-      turnstile.setAttribute('data-theme', theme);
+      turnstileEl.setAttribute('data-theme', theme);
     }
   }
   updateTurnstileTheme();
@@ -123,7 +129,7 @@ bodyClass: contact-page
     const token = window.turnstile ? window.turnstile.getResponse() : '';
 
     if (!token) {
-      showStatus('Please complete the security verification.', 'error');
+      showStatus('Please complete the security verification.', 'error', 'TURNSTILE_TOKEN_MISSING');
       return;
     }
 
@@ -131,6 +137,7 @@ bodyClass: contact-page
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
     status.style.display = 'none';
+    status.removeAttribute('data-code');
 
     try {
       const response = await fetch('https://contact-form.nbadev01.workers.dev', {
@@ -151,24 +158,30 @@ bodyClass: contact-page
       try {
         data = await response.json();
       } catch (_) {
-        // JSON parse failed; treat as generic error
+        // JSON parse failed; treat as generic error with its own code
+        showStatus('Unexpected response from server. Please try again later.', 'error', 'INVALID_RESPONSE');
+        return;
       }
 
       if (response.ok && data && data.success) {
-        showStatus('Thank you! Your message has been sent successfully. I\'ll get back to you soon.', 'success');
+        showStatus(
+          'Thank you! Your message has been sent successfully. I\'ll get back to you soon.',
+          'success',
+          null
+        );
         form.reset();
         if (window.turnstile) window.turnstile.reset();
       } else {
-        const code = data && data.code;
-        const backendMessage = data && data.message;
+        const code = (data && data.code) || 'UNKNOWN_ERROR';
+        const backendMessage = data && (data.message || data.error);
         const friendly =
-          (code && ERROR_MESSAGES[code]) ||
+          ERROR_MESSAGES[code] ||
           backendMessage ||
           'Something went wrong. Please try again later.';
-        showStatus(friendly, 'error');
+        showStatus(friendly, 'error', code);
       }
     } catch (err) {
-      showStatus('Network error. Please check your connection and try again.', 'error');
+      showStatus('Network error. Please check your connection and try again.', 'error', 'NETWORK_ERROR');
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtnHTML;
