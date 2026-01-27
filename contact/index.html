@@ -131,6 +131,11 @@
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
+        // ✅ Run browser validation (required, type=email, etc.)
+        if (!form.reportValidity()) {
+            return;
+        }
+
         const token = window.turnstile ? window.turnstile.getResponse() : '';
 
         if (!token) {
@@ -183,6 +188,7 @@
     });
 })();
 </script>
+
 
     </main>
 
