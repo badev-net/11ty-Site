@@ -101,105 +101,142 @@
             <div id="form-message" class="form-message"></div>
         </div>
     </div>
-
+    
 <script>
 (function() {
-    const btn = document.getElementById('download-btn');
-    const modal = document.getElementById('download-modal');
-    const closeBtn = document.getElementById('modal-close');
-    const form = document.getElementById('resume-download-form');
-    const message = document.getElementById('form-message');
+  const btn = document.getElementById('download-btn');
+  const modal = document.getElementById('download-modal');
+  const closeBtn = document.getElementById('modal-close');
+  const form = document.getElementById('resume-download-form');
+  const message = document.getElementById('form-message');
 
-    btn.addEventListener('click', () => {
-        modal.classList.add('is-open');
-        document.body.classList.add('body--modal-open');
+  // Map backend error codes -> user-friendly messages
+  const ERROR_MESSAGES = {
+    INVALID_NAME_OR_EMAIL: 'Please enter a valid name and email address.',
+    TURNSTILE_TOKEN_MISSING: 'Please complete the security verification.',
+    TURNSTILE_FAILED: 'Security verification failed. Please try again.',
+    TURNSTILE_HTTP_ERROR: 'Security verification service is unavailable. Please try again later.',
+    TURNSTILE_PARSE_ERROR: 'Unexpected response from security service. Please try again later.',
+    TURNSTILE_HOST_MISMATCH: 'Security verification failed for this website. Please refresh the page and try again.',
+    RATE_LIMIT_EXCEEDED: 'Too many download attempts. Please wait a few minutes and try again.',
+    PAYLOAD_TOO_LARGE: 'Your submission was too large. Please try again.',
+    INVALID_CONTENT_TYPE: 'Unexpected request format. Please refresh the page and try again.',
+    INVALID_JSON: 'Unexpected request data. Please refresh the page and try again.',
+    SERVER_MISCONFIGURED: 'The server is misconfigured. Please try again later.',
+    RELAY_FAILED: 'Unable to process your request right now. Please try again later.',
+    ORIGIN_FORBIDDEN: 'This form can only be submitted from badev.net.',
+    METHOD_NOT_ALLOWED: 'Unexpected request method. Please refresh the page and try again.',
+    TURNSTILE_MISCONFIGURED: 'Security service is misconfigured. Please try again later.'
+  };
+
+  function showMessage(text, type) {
+    if (!message) return;
+    message.textContent = text;
+    message.className = 'form-message ' + (type === 'error' ? 'error' : 'success');
+  }
+
+  // Open modal
+  btn.addEventListener('click', () => {
+    modal.classList.add('is-open');
+    document.body.classList.add('body--modal-open');
+  });
+
+  // Also open modal when clicking contact note
+  const contactNote = document.getElementById('contact-note-link');
+  if (contactNote) {
+    contactNote.addEventListener('click', () => {
+      modal.classList.add('is-open');
+      document.body.classList.add('body--modal-open');
     });
+  }
 
-    // Also open modal when clicking contact note
-    const contactNote = document.getElementById('contact-note-link');
-    if (contactNote) {
-        contactNote.addEventListener('click', () => {
-            modal.classList.add('is-open');
-            document.body.classList.add('body--modal-open');
-        });
+  // Close handlers
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('is-open');
+    document.body.classList.remove('body--modal-open');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('is-open');
+      document.body.classList.remove('body--modal-open');
+    }
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Run built-in HTML5 validation
+    if (!form.reportValidity()) {
+      return;
     }
 
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('is-open');
-        document.body.classList.remove('body--modal-open');
-    });
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const token = window.turnstile ? window.turnstile.getResponse() : '';
 
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('is-open');
-            document.body.classList.remove('body--modal-open');
-        }
-    });
+    if (!token) {
+      showMessage('Please complete the security verification.', 'error');
+      return;
+    }
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    showMessage('', ''); // clear
 
-        // ✅ Run built-in HTML5 validation (required, type=email, etc.)
-        if (!form.reportValidity()) {
-            return;
-        }
+    try {
+      const response = await fetch('https://resume-dl.nbadev01.workers.dev', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          company: form.company.value.trim() || 'Not provided',
+          turnstileToken: token
+        })
+      });
 
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const token = window.turnstile ? window.turnstile.getResponse() : '';
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (_) {
+        // If JSON parse fails, treat as generic error
+      }
 
-        if (!token) {
-            message.textContent = 'Please complete the security check.';
-            message.className = 'form-message error';
-            return;
-        }
+      if (response.ok && data && data.success) {
+        // ✅ Success path
+        showMessage('Thank you! Your download will start shortly.', 'success');
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
-
-        try {
-            const response = await fetch('https://resume-dl.nbadev01.workers.dev', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: form.name.value,
-                    email: form.email.value,
-                    company: form.company.value || 'Not provided',
-                    turnstileToken: token
-                })
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                message.textContent = 'Thank you! Your download will start shortly.';
-                message.className = 'form-message success';
-
-                setTimeout(() => {
-                    const downloadUrl = result.downloadUrl || '/files/Nikola_Badev_resume.pdf';
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.download = 'Nikola_Badev_resume.pdf';
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                    modal.classList.remove('is-open');
-                    form.reset();
-                    if (window.turnstile) window.turnstile.reset();
-                }, 1500);
-            } else {
-                throw new Error('Failed to submit');
-            }
-        } catch (err) {
-            message.textContent = 'Something went wrong. Please try again.';
-            message.className = 'form-message error';
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Download PDF';
-            if (window.turnstile) window.turnstile.reset();
-        }
-    });
+        setTimeout(() => {
+          const downloadUrl = data.downloadUrl || '/files/Nikola_Badev_resume.pdf';
+          const link = document.createElement('a');
+          link.href = downloadUrl;
+          link.download = 'Nikola_Badev_resume.pdf';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          modal.classList.remove('is-open');
+          form.reset();
+          if (window.turnstile) window.turnstile.reset();
+        }, 1500);
+      } else {
+        // ❌ Error path with standardized codes
+        const code = data && data.code;
+        const backendMessage = data && data.message;
+        const friendly = (code && ERROR_MESSAGES[code]) || backendMessage || 'Something went wrong. Please try again later.';
+        showMessage(friendly, 'error');
+      }
+    } catch (err) {
+      showMessage('Network error. Please check your connection and try again.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Download PDF';
+      if (window.turnstile) window.turnstile.reset();
+    }
+  });
 })();
 </script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     
     <section class="resume-section">
