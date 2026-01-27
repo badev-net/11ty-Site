@@ -3,12 +3,11 @@ layout: layouts/resume.njk
 title: Resume
 name: Nikola Badev
 subtitle: Purple Team Analyst | Adversary Simulation | Physical & Cyber Systems Security
-email: nikola@badev.net
-phone: (862) 832-7365
 location: New Jersey
-website: badev.net/resume
+website: badev.net
 github: github.com/badev-net
 linkedin: null
+contactNote: Download resume for contact details
 summary: |
   <p>Security analyst with hands-on experience across cyber and physical security systems, incident response, network defense, and identity management. At AIG, I identified a credential cloning vulnerability in our global access card system, demonstrated the exploit to senior leadership, and drove a multi-site hardware remediation program affecting priority locations worldwide.</p>
 

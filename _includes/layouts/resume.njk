@@ -9,10 +9,8 @@ layout: layouts/base.njk
         <p class="resume-subtitle">{{ subtitle }}</p>
         {% endif %}
         <div class="contact-info">
-            <p>{{ location }} | {{ phone }} | {{ email }}</p>
-            {% if website %}<p>{{ website }}</p>{% endif %}
-            {% if github %}<p>GitHub: {{ github }}</p>{% endif %}
-            {% if linkedin %}<p>LinkedIn: {{ linkedin }}</p>{% endif %}
+            <p>{{ location }}{% if website %} | {{ website }}{% endif %}{% if github %} | {{ github }}{% endif %}</p>
+            {% if contactNote %}<p class="contact-note" id="contact-note-link">{{ contactNote }}</p>{% endif %}
         </div>
         <button type="button" class="btn-download" id="download-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -71,6 +69,15 @@ layout: layouts/base.njk
             modal.classList.add('is-open');
             document.body.classList.add('body--modal-open');
         });
+
+        // Also open modal when clicking contact note
+        const contactNote = document.getElementById('contact-note-link');
+        if (contactNote) {
+            contactNote.addEventListener('click', () => {
+                modal.classList.add('is-open');
+                document.body.classList.add('body--modal-open');
+            });
+        }
 
         closeBtn.addEventListener('click', () => {
             modal.classList.remove('is-open');
