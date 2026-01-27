@@ -23,6 +23,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/resume/">Resume</a></li>
                 <li><a href="/blog/">Blog</a></li>
+                <li><a href="/contact/">Contact</a></li>
                 <li><a href="/admin/" class="admin-login">Admin</a></li>
             </ul>
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
@@ -53,10 +54,8 @@
         <p class="resume-subtitle">Purple Team Analyst | Adversary Simulation | Physical &amp; Cyber Systems Security</p>
         
         <div class="contact-info">
-            <p>New Jersey | (862) 832-7365 | nikola@badev.net</p>
-            <p>badev.net/resume</p>
-            <p>GitHub: github.com/badev-net</p>
-            
+            <p>New Jersey | badev.net | github.com/badev-net</p>
+            <p class="contact-note" id="contact-note-link">Download resume for contact details</p>
         </div>
         <button type="button" class="btn-download" id="download-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -115,6 +114,15 @@
             modal.classList.add('is-open');
             document.body.classList.add('body--modal-open');
         });
+
+        // Also open modal when clicking contact note
+        const contactNote = document.getElementById('contact-note-link');
+        if (contactNote) {
+            contactNote.addEventListener('click', () => {
+                modal.classList.add('is-open');
+                document.body.classList.add('body--modal-open');
+            });
+        }
 
         closeBtn.addEventListener('click', () => {
             modal.classList.remove('is-open');
@@ -542,6 +550,7 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/resume/">Resume</a></li>
                     <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/contact/">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section">

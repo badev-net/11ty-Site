@@ -244,6 +244,17 @@ html[data-theme="light"] .resume-section {
 
 html[data-theme="light"] .contact-form {
   background: var(--terminal-bg);
+  border-color: #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
+}
+
+html[data-theme="light"] .contact-form h2 {
+  color: #059669;
+  text-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 html[data-theme="light"] .education-item {
@@ -1010,6 +1021,64 @@ h1 {
   content: "$ ";
   color: var(--accent-cyan);
 }
+.contact-note {
+  color: #ff2d95;
+  font-style: italic;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  animation: glitch-subtle 3s infinite;
+}
+.contact-note:hover {
+  animation: glitch-intense 0.3s infinite;
+  text-shadow:
+    0.05em 0 0 #00d9ff,
+    -0.05em -0.025em 0 #ff2d95,
+    0.025em 0.05em 0 #a855f7;
+}
+@keyframes glitch-subtle {
+  0%, 92%, 100% {
+    text-shadow: none;
+    transform: none;
+  }
+  93% {
+    text-shadow: -2px 0 #00d9ff, 2px 0 #ff2d95;
+    transform: translateX(-1px);
+  }
+  94% {
+    text-shadow: 2px 0 #00d9ff, -2px 0 #ff2d95;
+    transform: translateX(1px);
+  }
+  95% {
+    text-shadow: none;
+    transform: none;
+  }
+}
+@keyframes glitch-intense {
+  0% {
+    text-shadow: -2px 0 #00d9ff, 2px 0 #ff2d95;
+    transform: translateX(-2px);
+  }
+  25% {
+    text-shadow: 2px 0 #00d9ff, -2px 0 #ff2d95;
+    transform: translateX(2px);
+  }
+  50% {
+    text-shadow: -1px 0 #a855f7, 1px 0 #00d9ff;
+    transform: translateX(-1px);
+  }
+  75% {
+    text-shadow: 1px 0 #ff2d95, -1px 0 #a855f7;
+    transform: translateX(1px);
+  }
+  100% {
+    text-shadow: -2px 0 #00d9ff, 2px 0 #ff2d95;
+    transform: translateX(-2px);
+  }
+}
+html[data-theme="light"] .contact-note {
+  color: #ff6a00;
+}
 /* Resume Sections */
 .resume-section {
   margin-bottom: 3rem;
@@ -1030,6 +1099,7 @@ h1 {
 }
 .resume-section h2 {
   font-size: 1.8rem;
+  margin-top: 0;
   margin-bottom: 1.5rem;
   color: #ffffff;
   border-bottom: 2px solid var(--primary-color);
@@ -1039,6 +1109,7 @@ h1 {
 .resume-section h3 {
   font-size: 1.3rem;
   color: var(--accent-cyan);
+  margin-top: 0;
   margin-bottom: 0.5rem;
 }
 /* Job Entries */
@@ -1609,6 +1680,9 @@ footer::before {
 .footer-credit a {
   color: #ff2d9a;
 }
+html[data-theme="light"] .footer-credit a {
+  color: #ff6a00;
+}
 /* Home Page */
 .home-page {
   max-width: 1000px;
@@ -1788,13 +1862,22 @@ footer::before {
   border-radius: var(--border-radius-sm);
 }
 /* Contact Form */
+.contact-hero {
+  margin-bottom: 2rem;
+}
+
+.contact-hero h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
 .contact-form {
   max-width: 800px;
   margin: 0 auto;
   padding: 3rem 2rem;
   background: rgba(0, 0, 10, 0.7);
-  border: 2px solid var(--accent-purple);
-  box-shadow: var(--glow-pink);
+  border: 1px solid var(--primary-color);
+  box-shadow: var(--glow-sm);
   position: relative;
   border-radius: var(--border-radius-lg);
 }
@@ -1806,15 +1889,18 @@ footer::before {
   background: var(--dark-bg);
   padding: 0 10px;
   font-size: 0.7rem;
-  color: var(--accent-purple);
-  text-shadow: var(--glow-pink);
+  color: var(--primary-color);
+  text-shadow: var(--glow-sm);
   font-family: "Orbitron", monospace;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius-sm);
+  animation: glitch-pronounced 8s infinite;
 }
 .contact-form h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: var(--accent-purple);
-  text-shadow: var(--glow-pink);
+  color: var(--accent-cyan);
+  text-shadow: var(--glow-cyan);
 }
 .form-group {
   margin-bottom: 1.5rem;
@@ -1851,8 +1937,8 @@ footer::before {
 }
 .submit-btn {
   background: transparent;
-  color: var(--accent-purple);
-  border: 2px solid var(--accent-purple);
+  color: #ff2d9a;
+  border: 2px solid #ff2d9a;
   padding: 1rem 2rem;
   font-family: "Orbitron", monospace;
   font-size: 1rem;
@@ -1870,7 +1956,7 @@ footer::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--accent-purple);
+  background: #ff2d9a;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: -1;
@@ -1882,6 +1968,15 @@ footer::before {
 .submit-btn:hover {
   color: var(--dark-bg);
   box-shadow: var(--glow-pink);
+}
+
+html[data-theme="light"] .submit-btn {
+  color: #ff6a00;
+  border-color: #ff6a00;
+}
+
+html[data-theme="light"] .submit-btn::before {
+  background: #ff6a00;
 }
 /* Matrix Rain Effect - blue version */
 .matrix-rain {
@@ -2434,6 +2529,8 @@ html[data-theme="light"] .recent-posts {
   position: relative;
 }
 
+
+
 .home-page .about-preview h2::after {
   content: "";
   position: absolute;
@@ -2441,7 +2538,7 @@ html[data-theme="light"] .recent-posts {
   left: 0;
   width: 60px;
   height: 3px;
-  background: #0d9488;
+  background: #ff2d9a;
 }
 
 .home-page .recent-posts h2::after {
@@ -2451,7 +2548,15 @@ html[data-theme="light"] .recent-posts {
   left: 0;
   width: 60px;
   height: 3px;
-  background: #7c3aed;
+  background: #ff2d9a;
+}
+
+html[data-theme="light"] .home-page .recent-posts h2::after {
+  background: #ff6a00;
+}
+
+html[data-theme="light"] .home-page .about-preview h2::after {
+  background: #ff6a00;
 }
 
 .home-page .about-preview p {
@@ -2691,6 +2796,19 @@ html[data-theme="light"] .recent-posts {
 
   header nav {
     padding: 0.875rem;
+  }
+
+  .nav-menu {
+    top: 4rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(150%);
+    width: calc(100vw - 1rem);
+    max-width: none;
+  }
+
+  .nav-menu.is-open {
+    transform: translateX(-50%);
   }
 
   .logo {

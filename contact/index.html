@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Badev</title>
-    <meta name="description" content="Personal portfolio and blog">
+    <title>Contact | Badev</title>
+    <meta name="description" content="Get in touch with me">
     <link rel="stylesheet" href="/css/style.css">
     <script>
       const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -12,7 +12,7 @@
     </script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
-<body>
+<body class="contact-page">
     <header>
         <nav>
             <a href="/" class="logo">Badev</a>
@@ -46,37 +46,143 @@
     </header>
 
     <main>
-        <div class="home-page">
-<section class="hero">
-    <h1>Hello, I'm Nikola Badev</h1>
-    <p class="tagline">Security Enthusiast | Privacy Advocate | Lifelong Learner</p>
-  <p class="intro">
-       Welcome to my corner of the internet. I'm a security analyst based in the USA who looks for real-world gaps across cyber and physical systems and turns those findings into actionable remediation. I focus on practical, threat-informed security that gives leadership clear visibility into risk and how to remediate it.
-    </p>
-    <p class="intro">
-        I learn by breaking things, fixing them, and understanding why they failed. Whether it's enterprise infrastructure or my own home lab, I’m always digging into how systems behave under pressure and what it takes to make them resilient.
-    </p>
-    <div class="cta-buttons">
-        <a href="/resume/" class="btn btn-primary">View Resume</a>
-        <a href="/blog/" class="btn btn-secondary">Read My Blog</a>
-    </div>
+        
+<section class="contact-hero">
+    <h1>Get In Touch</h1>
+    <p class="contact-intro">Have a question, opportunity, or just want to connect? Fill out the form below and I'll get back to you as soon as possible.</p>
 </section>
-        <section class="about-preview">
-            <h2>About Me</h2>
-            <p>I got my start in security by building and running systems long before I ever called it “security”. Early on, I was modding hardware, reverse-engineering console behavior, and operating game servers with 200+ concurrent players—writing custom plugins, building anti-cheat logic, and keeping the backend stable under heavy load. That mix of engineering, adversarial problem-solving, and real-world operational pressure is what ultimately pulled me into cybersecurity.
-            <p>
-            <p>Outside of work I run a home lab with segmented networks, IDS/IPS, and more self-hosted services. I write about all of the tools, tradecraft, and lessons learned along the way in my blog!</p>
-    </section>
-<p><section class="recent-posts">
-<h2>Recent Blog Posts</h2></p>
-<p><article class="post-preview">
-<h3><a href="/blog/2026-01-17-welcome-to-my-blog/">Welcome to My Blog</a></h3>
-<p class="post-meta">Jan 17, 2026</p></p>
-<p><p>An introduction to my new blog and what you can expect to find here.</p></p>
-<p></article></p>
-<p><a href="/blog/" class="view-all">View all posts →</a></p>
-<p></section></p>
+
+<div class="contact-form">
+    <form id="contact-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="contact-name">Name <span class="required">*</span></label>
+                <input type="text" id="contact-name" name="name" required autocomplete="name" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label for="contact-email">Email <span class="required">*</span></label>
+                <input type="email" id="contact-email" name="email" required autocomplete="email" placeholder="your@email.com">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="contact-company">Company <span class="optional">(Optional)</span></label>
+                <input type="text" id="contact-company" name="company" autocomplete="organization" placeholder="Your company">
+            </div>
+            <div class="form-group">
+                <label for="contact-subject">Subject <span class="required">*</span></label>
+                <input type="text" id="contact-subject" name="subject" required placeholder="What's this about?">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="contact-message">Message <span class="required">*</span></label>
+            <textarea id="contact-message" name="message" rows="6" required placeholder="Your message..."></textarea>
+        </div>
+
+        <div class="form-group turnstile-container">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACO5phJOlqGa3ZBx" data-theme="dark"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            Send Message
+        </button>
+    </form>
+
+    <div id="contact-status" class="form-message" style="display: none;"></div>
 </div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+(function() {
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('contact-status');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnHTML = submitBtn.innerHTML;
+
+    // Update Turnstile theme based on current theme
+    function updateTurnstileTheme() {
+        const turnstile = document.querySelector('.cf-turnstile');
+        if (turnstile) {
+            const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+            turnstile.setAttribute('data-theme', theme);
+        }
+    }
+    updateTurnstileTheme();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'data-theme') {
+                updateTurnstileTheme();
+                if (window.turnstile) {
+                    window.turnstile.reset();
+                }
+            }
+        });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const token = window.turnstile ? window.turnstile.getResponse() : '';
+
+        if (!token) {
+            status.textContent = 'Please complete the security verification.';
+            status.className = 'form-message error';
+            status.style.display = 'block';
+            return;
+        }
+
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+        status.style.display = 'none';
+
+        try {
+            const response = await fetch('https://contact-form.nbadev01.workers.dev', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'contact',
+                    name: form.name.value.trim(),
+                    email: form.email.value.trim(),
+                    company: form.company.value.trim() || null,
+                    subject: form.subject.value.trim(),
+                    message: form.message.value.trim(),
+                    turnstileToken: token
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                status.textContent = 'Thank you! Your message has been sent successfully. I\'ll get back to you soon.';
+                status.className = 'form-message success';
+                status.style.display = 'block';
+                form.reset();
+                if (window.turnstile) window.turnstile.reset();
+            } else {
+                throw new Error(data.error || 'Failed to send message');
+            }
+        } catch (err) {
+            status.textContent = err.message || 'Something went wrong. Please try again later.';
+            status.className = 'form-message error';
+            status.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHTML;
+            if (window.turnstile) window.turnstile.reset();
+        }
+    });
+})();
+</script>
 
     </main>
 
