@@ -2304,10 +2304,12 @@ html[data-theme="light"] .download-modal-content .submit-btn:hover {
 }
 
 .home-page .tagline {
-  font-size: 1.125rem;
+  font-size: clamp(0.75rem, 2.8vw, 1.125rem);
   color: var(--accent-cyan);
   margin-bottom: 1.5rem;
   font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
 }
 
 .home-page .intro {
@@ -2658,6 +2660,7 @@ html[data-theme="light"] .recent-posts {
 
   .home-page .tagline {
     font-size: 1rem;
+    white-space: normal;
   }
 
   .home-page .intro {
@@ -2772,6 +2775,7 @@ html[data-theme="light"] .recent-posts {
     font-size: 0.8rem;
     letter-spacing: 1px;
     margin-bottom: 1rem;
+    white-space: normal;
   }
 
   .home-page .intro {
