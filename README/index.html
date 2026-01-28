@@ -1,7 +1,29 @@
-<h1>My 11ty Site</h1>
+<h1>Badev.net</h1>
+<p><a href="https://badev.net"><img src="https://img.shields.io/badge/Live-badev.net-7dd3fc?style=for-the-badge" alt="Live Site"></a></p>
 <p>A fast, accessible personal website and blog built with Eleventy (11ty), focused on performance, simplicity, and maintainability.</p>
-<p><img src="./images/uploads/homepage.png" alt="Homepage of badev.net"></p>
-<h2>🛠 Tech Stack</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Desktop</th>
+<th style="text-align:center">Mobile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="./images/uploads/homepage.png" alt="Desktop" height="300"></td>
+<td style="text-align:center"><img src="./images/uploads/mobile.png" alt="Mobile" height="300"></td>
+</tr>
+</tbody>
+</table>
+<h2>Features</h2>
+<ul>
+<li>Dark/light theme with system preference detection</li>
+<li>Resume download with email verification to reduce spam</li>
+<li>Contact form protected by Turnstile and 3-layer email validation</li>
+<li>Self-hosted mail server (Mailcow) with private Python relay</li>
+<li>Mobile-first responsive design</li>
+</ul>
+<h2>Tech Stack</h2>
 <table>
 <thead>
 <tr>
@@ -11,90 +33,113 @@
 </thead>
 <tbody>
 <tr>
-<td>Generator</td>
-<td>Eleventy (11ty)</td>
+<td>Frontend</td>
+<td>Eleventy, Nunjucks, CSS</td>
 </tr>
 <tr>
-<td>CMS</td>
-<td>Decam CMS</td>
+<td>Backend</td>
+<td>Cloudflare Workers, Python</td>
 </tr>
 <tr>
-<td>Languages</td>
-<td>HTML, CSS, JavaScript</td>
+<td>Storage</td>
+<td>Cloudflare KV</td>
 </tr>
 <tr>
-<td>Templating</td>
-<td>Nunjucks</td>
+<td>Email</td>
+<td>Mailcow, SMTP</td>
 </tr>
 <tr>
-<td>Mail Server</td>
-<td>Mailcow</td>
-</tr>
-<tr>
-<td>Identity</td>
-<td>Github / Netlify</td>
+<td>Security</td>
+<td>Turnstile, HMAC, MX validation</td>
 </tr>
 <tr>
 <td>Deployment</td>
 <td>GitHub Pages</td>
 </tr>
+<tr>
+<td>CMS</td>
+<td>Decap CMS</td>
+</tr>
 </tbody>
 </table>
-<h2>📝 TODO</h2>
+<h2>Roadmap</h2>
 <table>
 <thead>
 <tr>
-<th>Feature / Change</th>
-<th>Impact</th>
+<th>Status</th>
+<th>Feature</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>[x] Update Resume / Skills</td>
+<td>Done</td>
+<td>Resume / Skills</td>
 <td>Highlight skills and professional experience</td>
 </tr>
 <tr>
-<td>[x] Downloadable PDF Resume</td>
+<td>Done</td>
+<td>Downloadable PDF Resume</td>
 <td>Makes it easy for everyone to view and save my resume</td>
 </tr>
 <tr>
-<td>[x] Mobile Version</td>
+<td>Done</td>
+<td>Mobile Version</td>
 <td>Ensure site is fully working on mobile</td>
 </tr>
 <tr>
-<td>[x] Contact Form</td>
+<td>Done</td>
+<td>Contact Form</td>
 <td>Let users reach me via e-mail</td>
 </tr>
 <tr>
-<td>[ ] Sitemap</td>
+<td>Done</td>
+<td>Email Verification</td>
+<td>3-layer validation to block spam and fake emails</td>
+</tr>
+<tr>
+<td>Done</td>
+<td>Dark/Light Theme</td>
+<td>Automatic detection with manual toggle</td>
+</tr>
+<tr>
+<td></td>
+<td>Sitemap</td>
 <td>Improve SEO and indexing</td>
 </tr>
 <tr>
-<td>[ ] Visitor counter</td>
+<td></td>
+<td>Visitor Counter</td>
 <td>Tracks site traffic</td>
 </tr>
 <tr>
-<td>[ ] Decap Admin UX / Workflow / Preview</td>
+<td></td>
+<td>Decap Admin UX</td>
 <td>Makes content editing more user-friendly and intuitive</td>
 </tr>
 <tr>
-<td>[ ] Dark/light mode for Admin</td>
+<td></td>
+<td>Dark/Light Mode for Admin</td>
 <td>Improves admin panel readability and styling</td>
 </tr>
 <tr>
-<td>[ ] Set up newsletter signup with Mailcow</td>
+<td></td>
+<td>Newsletter Signup</td>
 <td>Builds a subscriber base for updates and announcements</td>
 </tr>
 <tr>
-<td>[ ] RSS Feed</td>
+<td></td>
+<td>RSS Feed</td>
 <td>Allows users to subscribe to blog updates</td>
 </tr>
 <tr>
-<td>[ ] Implement search for blog posts</td>
+<td></td>
+<td>Blog Search</td>
 <td>Helps visitors find content quickly</td>
 </tr>
 <tr>
-<td>[ ] Implement comment system</td>
+<td></td>
+<td>Comment System</td>
 <td>Visitors can engage and share ideas</td>
 </tr>
 </tbody>
