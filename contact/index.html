@@ -108,6 +108,7 @@
   // Map backend error codes -> user-friendly messages
   const ERROR_MESSAGES = {
     INVALID_NAME_OR_EMAIL: 'Please enter a valid name and email address.',
+    DISPOSABLE_EMAIL_BLOCKED: 'Please use a permanent email address. Temporary/disposable emails are not accepted.',
     SUBJECT_MESSAGE_REQUIRED: 'Please provide both a subject and a message.',
     TURNSTILE_TOKEN_MISSING: 'Please complete the security verification.',
     TURNSTILE_FAILED: 'Security verification failed. Please try again.',
@@ -206,11 +207,21 @@
       }
 
       if (response.ok && data && data.success) {
-        showStatus(
-          'Thank you! Your message has been sent successfully. I\'ll get back to you soon.',
-          'success',
-          null
-        );
+        if (data.requiresVerification) {
+          // Email verification required
+          showStatus(
+            'Please check your email to verify your address. Click the link in the email to send your message.',
+            'success',
+            null
+          );
+        } else {
+          // Direct success (legacy/fallback)
+          showStatus(
+            'Thank you! Your message has been sent successfully. I\'ll get back to you soon.',
+            'success',
+            null
+          );
+        }
         form.reset();
         if (window.turnstile) window.turnstile.reset();
       } else {
