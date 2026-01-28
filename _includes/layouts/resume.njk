@@ -68,6 +68,7 @@ layout: layouts/base.njk
   // Map backend error codes -> user-friendly messages
   const ERROR_MESSAGES = {
     INVALID_NAME_OR_EMAIL: 'Please enter a valid name and email address.',
+    DISPOSABLE_EMAIL_BLOCKED: 'Please use a permanent email address. Temporary/disposable emails are not accepted.',
     TURNSTILE_TOKEN_MISSING: 'Please complete the security verification.',
     TURNSTILE_FAILED: 'Security verification failed. Please try again.',
     TURNSTILE_HTTP_ERROR: 'Security verification service is unavailable. Please try again later.',
@@ -190,20 +191,33 @@ layout: layouts/base.njk
 
       if (response.ok && data && data.success) {
         // ✅ Success path
-        showMessage('Thank you! Your download will start shortly.', 'success', null);
-
-        setTimeout(() => {
-          const downloadUrl = data.downloadUrl || '/files/Nikola_Badev_resume.pdf';
-          const link = document.createElement('a');
-          link.href = downloadUrl;
-          link.download = 'Nikola_Badev_resume.pdf';
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          modal.classList.remove('is-open');
+        if (data.requiresVerification) {
+          // Email verification required
+          showMessage('Please check your email to verify your address. Click the link in the email to download the resume.', 'success', null);
           form.reset();
           if (window.turnstile) window.turnstile.reset();
-        }, 1500);
+          // Keep modal open so user sees the message
+        } else if (data.downloadUrl) {
+          // Direct download (legacy/fallback)
+          showMessage('Thank you! Your download will start shortly.', 'success', null);
+          setTimeout(() => {
+            const downloadUrl = data.downloadUrl || '/files/Nikola_Badev_resume.pdf';
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'Nikola_Badev_resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            modal.classList.remove('is-open');
+            form.reset();
+            if (window.turnstile) window.turnstile.reset();
+          }, 1500);
+        } else {
+          // Generic success
+          showMessage('Thank you! Your request has been received.', 'success', null);
+          form.reset();
+          if (window.turnstile) window.turnstile.reset();
+        }
       } else {
         // ❌ Error path with standardized codes
         const code = (data && data.code) || 'UNKNOWN_ERROR';
