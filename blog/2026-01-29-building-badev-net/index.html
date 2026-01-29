@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building badev.net: A Security Guy&#39;s Journey Into Static Sites | Badev</title>
+    <meta name="description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://badev.net/blog/2026-01-29-building-badev-net/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://badev.net/blog/2026-01-29-building-badev-net/">
+    <meta property="og:title" content="Building badev.net: A Security Guy&#39;s Journey Into Static Sites | Badev">
+    <meta property="og:description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.">
+    <meta property="og:image" content="https://badev.net/images/og-default.png">
+    <meta property="og:site_name" content="Badev">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://badev.net/blog/2026-01-29-building-badev-net/">
+    <meta name="twitter:title" content="Building badev.net: A Security Guy&#39;s Journey Into Static Sites | Badev">
+    <meta name="twitter:description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.">
+    <meta name="twitter:image" content="https://badev.net/images/og-default.png">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="blog-post-page">
+    <header>
+    <nav>
+        <a href="/" class="logo">Badev</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span class="nav-toggle-icon"></span>
+        </button>
+        <ul id="nav-menu" class="nav-menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/resume/">Resume</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/admin/" class="admin-login">Admin</a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+    </nav>
+</header>
+
+
+    <main>
+        
+<article class="blog-post-single">
+    <header class="post-header">
+        <h1>Building badev.net: A Security Guy&#39;s Journey Into Static Sites</h1>
+        <p class="post-meta">
+            <time datetime="Thu Jan 29 2026 00:00:00 GMT+0000 (Coordinated Universal Time)">
+                Jan 29, 2026
+            </time>
+            
+                | Tags: 
+                
+                    
+                
+                    
+                
+                    
+                        <span class="tag">11ty</span>
+                    
+                
+                    
+                        <span class="tag">webdev</span>
+                    
+                
+                    
+                        <span class="tag">homelab</span>
+                    
+                
+            
+        </p>
+    </header>
+
+    <div class="post-content">
+        <p>I've been building and breaking things since I was a kid—running game servers in middle school, jailbreaking iPhones, JTAG-modding Xboxes. But I'd never actually built a personal website. After years of working in security operations and building out my home lab, I figured it was time to have a proper online presence. Not for clout, just for documentation. And honestly? I was tired of LinkedIn being my only online presence. A place to put my resume, write about what I'm learning, and maybe help someone else avoid the same rabbit holes I fall into.</p>
+<p>This is the story of how badev.net came together.</p>
+<hr>
+<h2>The Tech Stack</h2>
+<p>Before diving into the details, here's what I ended up with:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Static Site Generator</td>
+<td>Eleventy (11ty)</td>
+</tr>
+<tr>
+<td>Templating</td>
+<td>Nunjucks</td>
+</tr>
+<tr>
+<td>CMS</td>
+<td>Decap CMS</td>
+</tr>
+<tr>
+<td>Hosting</td>
+<td>Cloudflare Pages</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>Netlify Identity (for CMS only)</td>
+</tr>
+<tr>
+<td>Domain + SSL</td>
+<td>Cloudflare</td>
+</tr>
+<tr>
+<td>Version Control</td>
+<td>GitHub</td>
+</tr>
+</tbody>
+</table>
+<p>Total cost: $0/month (domain registration aside).</p>
+<p>Now let me walk through how I set up each piece.</p>
+<hr>
+<h2>Eleventy (11ty) - The Static Site Generator</h2>
+<p>I looked at a lot of options. Jekyll, Hugo, Next.js, even just raw HTML. I settled on <a href="https://www.11ty.dev/">Eleventy (11ty)</a> because it hit the sweet spot: simple enough to not get in my way, flexible enough to grow with me.</p>
+<p>The pitch is straightforward—it's a static site generator that takes templates and content files and spits out plain HTML. No client-side JavaScript unless you add it. No database. Just files. That resonated with me. I already deal with enough complexity fighting with legacy physical security systems at AIG. I wanted something that just worked without me having to become an expert in yet another framework.</p>
+<h3>Initial Setup</h3>
+<p>Getting started was quick:</p>
+<pre><code class="language-bash">mkdir badev-net
+cd badev-net
+npm init -y
+npm install --save-dev @11ty/eleventy
+</code></pre>
+<p>I added these scripts to <code>package.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;eleventy --serve&quot;,
+    &quot;build&quot;: &quot;eleventy&quot;,
+    &quot;clean&quot;: &quot;rm -rf _site&quot;
+  }
+}
+</code></pre>
+<h3>Project Structure</h3>
+<p>Here's how I organized everything:</p>
+<pre><code>badev-net/
+├── _data/
+│   └── site.json          # Global site config (name, URL, etc.)
+├── _includes/
+│   └── layouts/
+│       ├── base.njk       # Main layout template
+│       ├── post.njk       # Blog post layout
+│       └── resume.njk     # Resume page layout
+├── admin/
+│   ├── config.yml         # Decap CMS configuration
+│   └── index.html         # CMS admin interface
+├── blog/
+│   ├── blog.json          # Default front matter for posts
+│   └── *.md               # Individual blog posts
+├── css/
+│   └── style.css          # The cyberpunk madness
+├── resume/
+│   └── index.md           # Resume content
+├── index.md               # Homepage
+└── .eleventy.js           # 11ty configuration
+</code></pre>
+<p>I went with this structure because I wanted clear separation between content (markdown files), presentation (templates), and configuration. Coming from a security background, I like things organized in a way where I can immediately understand what's what without digging through nested directories.</p>
+<h3>The Configuration File</h3>
+<p>The <code>.eleventy.js</code> config handles custom filters, passthrough file copying, and build settings:</p>
+<pre><code class="language-javascript">const { DateTime } = require(&quot;luxon&quot;);
+
+module.exports = function (eleventyConfig) {
+  // Date formatting filter
+  eleventyConfig.addFilter(&quot;postDate&quot;, (dateObj) =&gt; {
+    return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED);
+  });
+
+  // Limit filter for &quot;recent posts&quot; on homepage
+  eleventyConfig.addFilter(&quot;limit&quot;, function (arr, limit) {
+    return arr.slice(0, limit);
+  });
+
+  // Copy static assets
+  eleventyConfig.addPassthroughCopy(&quot;css&quot;);
+  eleventyConfig.addPassthroughCopy(&quot;images&quot;);
+  eleventyConfig.addPassthroughCopy(&quot;admin&quot;);
+
+  return {
+    dir: {
+      input: &quot;.&quot;,
+      output: &quot;_site&quot;,
+      includes: &quot;_includes&quot;,
+    },
+  };
+};
+</code></pre>
+<p>The <code>postDate</code> filter uses Luxon to turn ugly ISO dates into something readable. The <code>limit</code> filter lets me show only the three most recent posts on the homepage. Neither of these exist in vanilla 11ty—you have to add them yourself. I found this out the hard way when my homepage tried to render a filter that didn't exist and just crashed silently.</p>
+<hr>
+<h2>Nunjucks - The Templating Engine</h2>
+<p>11ty supports multiple templating languages. I went with <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a> because the syntax felt clean and the documentation was solid. If you've never heard of it, think of it like HTML with superpowers—variables, loops, conditionals, includes. It's made by Mozilla and it just works.</p>
+<p>I initially considered using Liquid (what Jekyll uses), but Nunjucks felt more like writing actual code. The syntax is intuitive if you've done any server-side templating before.</p>
+<h3>Base Layout Template</h3>
+<p>Everything inherits from <code>_includes/layouts/base.njk</code>. This handles the HTML boilerplate, navigation, and footer:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Building badev.net: A Security Guy&amp;#39;s Journey Into Static Sites | Badev&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/style.css&quot; /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;
+      &lt;nav&gt;
+        &lt;a href=&quot;/&quot; class=&quot;logo&quot;&gt;Badev&lt;/a&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;/resume/&quot;&gt;Resume&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;/blog/&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;/contact/&quot;&gt;Contact&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;&lt;/main&gt;
+
+    &lt;footer&gt;
+      &lt;p&gt;&amp;copy; 2026 Badev&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3>Blog Post Layout</h3>
+<p>Individual posts use <code>_includes/layouts/post.njk</code>, which extends the base and adds post-specific stuff like date and tags:</p>
+<pre><code class="language-html">---
+layout: layouts/base.njk
+---
+
+&lt;article class=&quot;blog-post&quot;&gt;
+  &lt;h1&gt;Building badev.net: A Security Guy&amp;#39;s Journey Into Static Sites&lt;/h1&gt;
+  &lt;p class=&quot;post-meta&quot;&gt;
+    Jan 29, 2026  | Tags: 11tywebdevhomelab 
+  &lt;/p&gt;
+
+  
+
+  &lt;a href=&quot;/blog/&quot;&gt;← Back to all posts&lt;/a&gt;
+&lt;/article&gt;
+</code></pre>
+<h3>Blog Index Page</h3>
+<p>The blog listing at <code>/blog/</code> is <code>blog/index.njk</code>. It loops through all posts:</p>
+<pre><code class="language-html">---
+layout: layouts/base.njk
+title: Blog
+---
+
+&lt;div class=&quot;blog-list&quot;&gt;
+  &lt;h1&gt;Blog&lt;/h1&gt;
+
+  
+  &lt;article class=&quot;post-preview&quot;&gt;
+    &lt;h2&gt;&lt;a href=&quot;/blog/2026-01-29-building-badev-net/&quot;&gt;Building badev.net: A Security Guy&amp;#39;s Journey Into Static Sites&lt;/a&gt;&lt;/h2&gt;
+    &lt;p class=&quot;post-meta&quot;&gt;Jan 29, 2026&lt;/p&gt;
+    
+    &lt;p&gt;How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.&lt;/p&gt;
+    
+  &lt;/article&gt;
+  
+&lt;/div&gt;
+</code></pre>
+<p>The <code>collections.posts</code> is automatically created by 11ty because my blog posts have <code>tags: post</code> in their front matter.</p>
+<hr>
+<h2>Decap CMS - Content Management</h2>
+<p>A static site is great for performance and security, but how do you update content without touching code every time? I wanted to be able to write blog posts from anywhere without opening VS Code.</p>
+<p>Enter <a href="https://decapcms.org/">Decap CMS</a> (formerly Netlify CMS). It's a git-based CMS that gives you a <code>/admin</code> interface right on your site. You log in, write a post in a nice editor, hit publish, and it commits the markdown file directly to your GitHub repo. Your site rebuilds automatically.</p>
+<h3>Admin Interface Setup</h3>
+<p>I created <code>admin/index.html</code>:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Content Manager&lt;/title&gt;
+    &lt;script src=&quot;https://identity.netlify.com/v1/netlify-identity-widget.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src=&quot;https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3>CMS Configuration</h3>
+<p>The <code>admin/config.yml</code> defines what content can be edited and how:</p>
+<pre><code class="language-yaml">backend:
+  name: git-gateway
+  branch: main
+
+media_folder: &quot;images/uploads&quot;
+public_folder: &quot;/images/uploads&quot;
+
+collections:
+  - name: &quot;blog&quot;
+    label: &quot;Blog Posts&quot;
+    folder: &quot;blog&quot;
+    create: true
+    slug: &quot;---&quot;
+    fields:
+      - {
+          label: &quot;Layout&quot;,
+          name: &quot;layout&quot;,
+          widget: &quot;hidden&quot;,
+          default: &quot;layouts/post.njk&quot;,
+        }
+      - { label: &quot;Title&quot;, name: &quot;title&quot;, widget: &quot;string&quot; }
+      - { label: &quot;Date&quot;, name: &quot;date&quot;, widget: &quot;datetime&quot; }
+      - { label: &quot;Description&quot;, name: &quot;description&quot;, widget: &quot;string&quot; }
+      - { label: &quot;Tags&quot;, name: &quot;tags&quot;, widget: &quot;list&quot;, default: [&quot;post&quot;] }
+      - { label: &quot;Body&quot;, name: &quot;body&quot;, widget: &quot;markdown&quot; }
+
+  - name: &quot;resume&quot;
+    label: &quot;Resume&quot;
+    files:
+      - label: &quot;Resume Content&quot;
+        name: &quot;resume&quot;
+        file: &quot;resume/index.md&quot;
+        fields:
+          - {
+              label: &quot;Layout&quot;,
+              name: &quot;layout&quot;,
+              widget: &quot;hidden&quot;,
+              default: &quot;layouts/resume.njk&quot;,
+            }
+          - {
+              label: &quot;Title&quot;,
+              name: &quot;title&quot;,
+              widget: &quot;hidden&quot;,
+              default: &quot;Resume&quot;,
+            }
+          - { label: &quot;Name&quot;, name: &quot;name&quot;, widget: &quot;string&quot; }
+          - { label: &quot;Body&quot;, name: &quot;body&quot;, widget: &quot;markdown&quot; }
+</code></pre>
+<p>This gives me a nice admin panel at <code>/admin/</code> where I can create blog posts and edit my resume without touching the code.</p>
+<h3>The OAuth Problem</h3>
+<p>This is where I fell down a rabbit hole for way too long.</p>
+<p>Decap needs an OAuth backend to authenticate you with GitHub. If you're hosting on Netlify, they handle this for you automatically. I'm not on Netlify—I wanted everything on Cloudflare.</p>
+<p>I spent probably three hours reading Authentik docs and Decap source code trying to figure out if I could use Authentik (an open-source identity provider I already run in my home lab) as the OAuth server. The problem is that Decap's OAuth flow is pretty specific. It expects certain endpoints and response formats that don't quite match standard OIDC flows. I got close—Authentik could handle the initial auth—but the token exchange kept failing because Decap was looking for GitHub-specific claims in the JWT.</p>
+<p>I also explored writing a Cloudflare Worker to act as a proxy between Decap and GitHub's OAuth. Technically possible, but it meant handling token refresh, scope management, and a bunch of edge cases. The complexity wasn't worth it for a personal site.</p>
+<p>In the end, I went with Netlify Identity just for the auth piece while hosting the actual site on Cloudflare Pages. A hybrid approach. It's definitely janky. But it works, and I can write blog posts from my phone now, so whatever. One day I might write that Cloudflare Worker to replace this entirely, but for now it's fine.</p>
+<hr>
+<h2>GitHub - Version Control</h2>
+<p>Standard Git stuff—nothing worth dwelling on:</p>
+<pre><code class="language-bash">git init
+git add .
+git commit -m &quot;Initial commit&quot;
+git branch -M main
+git remote add origin https://github.com/badev-net/badev-net.git
+git push -u origin main
+</code></pre>
+<p>Every push to <code>main</code> triggers a rebuild on Cloudflare Pages. The CMS commits directly to the repo when I publish posts, which also triggers rebuilds. It's a nice loop.</p>
+<hr>
+<h2>Cloudflare Pages - Hosting</h2>
+<p>The actual deployment turned out to be the easy part. <a href="https://pages.cloudflare.com/">Cloudflare Pages</a> connects to your GitHub repo and rebuilds on every push.</p>
+<h3>Setup Steps</h3>
+<ol>
+<li>Log into Cloudflare Dashboard</li>
+<li>Go to Pages → Create a project</li>
+<li>Connect your GitHub account and select the repo</li>
+<li>Configure build settings:
+<ul>
+<li><strong>Build command:</strong> <code>npm run build</code></li>
+<li><strong>Build output directory:</strong> <code>_site</code></li>
+<li><strong>Root directory:</strong> <code>/</code> (leave default)</li>
+</ul>
+</li>
+<li>Add environment variable: <code>NODE_VERSION</code> = <code>18</code></li>
+</ol>
+<p>That's it. Cloudflare handles the build, caching, and CDN distribution.</p>
+<h3>Custom Domain</h3>
+<p>Adding my domain was straightforward:</p>
+<ol>
+<li>In Pages → your project → Custom domains</li>
+<li>Add <code>badev.net</code></li>
+<li>Cloudflare automatically provisions SSL</li>
+<li>DNS records are added automatically since I use Cloudflare for DNS</li>
+</ol>
+<p>No manual certificate management. No nginx config. It just works.</p>
+<hr>
+<h2>Netlify Identity - CMS Authentication</h2>
+<p>Since Decap CMS needs OAuth to authenticate with GitHub, and I didn't want to build my own auth server, I used Netlify Identity as a standalone service.</p>
+<h3>Setup</h3>
+<ol>
+<li>Create a Netlify account (free tier works)</li>
+<li>Create a new site (can be empty—just needs Identity enabled)</li>
+<li>Go to Site Settings → Identity → Enable Identity</li>
+<li>Under Registration, set to &quot;Invite only&quot;</li>
+<li>Enable Git Gateway under Identity → Services</li>
+<li>Invite yourself via email</li>
+</ol>
+<p>The Identity widget in my <code>admin/index.html</code> handles the login flow. When I authenticate, it gives Decap the token it needs to commit to GitHub.</p>
+<hr>
+<h2>The Design Evolution</h2>
+<p>This is where things went sideways—in a good way.</p>
+<h3>Phase 1: Clean and Professional</h3>
+<p>My first instinct was to keep it boring. ATS-friendly. Sans-serif fonts, lots of whitespace, neutral colors. I was building this partly as a portfolio for job hunting, so I figured recruiters would appreciate something clean.</p>
+<h3>Phase 2: Let's Add Some Polish</h3>
+<p>Clean got boring fast. I added a purple-blue gradient background, some card-based layouts, better typography. It looked fine. Generic, but fine.</p>
+<h3>Phase 3: Full Cyberpunk</h3>
+<p>Then I said screw it.</p>
+<p>I work in security. I've been hacking on hardware since I was a teenager. I have a server rack in my apartment with a 24-bay Dell PowerEdge R720 that doubles as a space heater for my 3D printer enclosure. The safe corporate design was the lie. This is who I actually am.</p>
+<p>I went full terminal aesthetic:</p>
+<ul>
+<li><strong>Colors:</strong> Neon cyan (<code>#00d9ff</code>) and green (<code>#00ff41</code>) on black</li>
+<li><strong>Fonts:</strong> <a href="https://fonts.google.com/specimen/Share+Tech+Mono">Share Tech Mono</a> for body text, <a href="https://fonts.google.com/specimen/Orbitron">Orbitron</a> for headings</li>
+<li><strong>Effects:</strong> Animated scanlines, grid overlays, glitch animations</li>
+<li><strong>Details:</strong> Terminal-style borders with labels like <code>[ $ whoami ]</code> and <code>[ SYSTEM ONLINE ]</code></li>
+</ul>
+<p>Is it ATS-friendly? Absolutely not. Does it represent who I actually am? Yeah.</p>
+<p>The CSS for this is borderline excessive. Animated scanlines that scroll slowly across the page. A grid overlay that gives everything a retro CRT feel. Neon glow effects on hover states. It's ridiculous and I love it.</p>
+<hr>
+<h2>The Bugs</h2>
+<p>No project is complete without a troubleshooting section. Here's what broke:</p>
+<h3>Blank Pages Everywhere</h3>
+<p>At one point my entire site was just white pages. No errors in the console, nothing in the build logs—just nothing. I clicked around for a good 10 minutes thinking maybe it was a caching issue before I realized my layout files existed but were completely empty. 11ty doesn't complain; it just renders... nothing.</p>
+<p><strong>Fix:</strong> Actually put content in the layout files. Yeah. I felt like an idiot for about five minutes.</p>
+<h3>Missing Blog Index</h3>
+<p>I could visit individual blog posts at <code>/blog/2026-01-17-welcome/</code> but <code>/blog/</code> itself 404'd. I'd forgotten to create <code>blog/index.njk</code>. The listing page that shows all posts isn't magic—you have to build it.</p>
+<p><strong>Fix:</strong> Create <code>blog/index.njk</code> with a loop through <code>collections.posts</code>.</p>
+<h3>The <code>limit</code> Filter</h3>
+<p>My homepage was supposed to show the three most recent posts. It crashed because I tried to use a <code>| limit(3)</code> filter that doesn't exist in vanilla 11ty.</p>
+<p><strong>Fix:</strong> Add the filter to <code>.eleventy.js</code>:</p>
+<pre><code class="language-javascript">eleventyConfig.addFilter(&quot;limit&quot;, function (arr, limit) {
+  return arr.slice(0, limit);
+});
+</code></pre>
+<h3>Date Formatting</h3>
+<p>11ty doesn't format dates nicely out of the box. A post dated <code>2026-01-17</code> would show up as a raw ISO string.</p>
+<p><strong>Fix:</strong> Install Luxon and add a custom <code>postDate</code> filter.</p>
+<h3>Mobile Navigation</h3>
+<p>The hamburger menu wasn't closing when you tapped a link. Had to add some JavaScript to handle the overlay state and accessibility (aria-expanded, Escape key to close).</p>
+<hr>
+<h2>What's Next</h2>
+<p>This site is a work in progress. Some things I want to add:</p>
+<ul>
+<li><strong>A projects section</strong> showcasing my home lab setup—the PowerEdge server, pfSense with Suricata IDS/IPS, the VLAN segmentation, the self-hosted services (Mailcow, honeypots, Plex)</li>
+<li><strong>More blog posts</strong> about actual security topics, not just meta posts about building the site</li>
+<li><strong>A custom OAuth Worker</strong> to replace Netlify Identity and have the whole stack on Cloudflare</li>
+</ul>
+<p>I'm also considering writing about the home lab in more detail. Running your own mail server with proper SPF/DKIM/DMARC, setting up Suricata rules, segmenting IoT devices onto their own VLAN—that kind of stuff.</p>
+<hr>
+<h2>Final Thoughts</h2>
+<p>Building this site reminded me why I got into tech in the first place. Not because I had to, but because I wanted to see what I could make. It's the same reason I ran game servers as a kid, the same reason I have an overcomplicated home lab, the same reason I spend my free time cloning access cards with a Proxmark.</p>
+<p>If you're thinking about building your own site, here's what I'd tell you: just start. Use 11ty if you want simplicity. Use something else if you don't. The tools matter less than the act of building.</p>
+<hr>
+<p><em>This post was written in Decap CMS and deployed automatically via Cloudflare Pages. The source is on <a href="https://github.com/badev-net">GitHub</a>. If you spot something broken, that's probably my fault.</em></p>
+
+    </div>
+
+    <a href="/blog/" class="back-link">← Back to all posts</a>
+</article>
+    </main>
+
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section footer-about">
+            <h3>Badev</h3>
+            <p class="footer-tagline">Security Enthusiast | Problem Solver | Lifelong Learner</p>
+            <p class="footer-description">Building secure, scalable solutions and sharing knowledge with the developer community.</p>
+            <div class="footer-links-icons">
+                <a href="https://github.com/badev-net" aria-label="GitHub" class="social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" aria-label="LinkedIn" class="social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                </a>
+                <a href="https://twitter.com/yourusername" aria-label="Twitter" class="social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h3>Navigation</h3>
+            <ul class="footer-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/resume/">Resume</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Subscribe</h3>
+            <ul class="footer-links">
+                <li><a href="/feed.xml" class="rss-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 11a9 9 0 0 1 9 9"></path>
+                        <path d="M4 4a16 16 0 0 1 16 16"></path>
+                        <circle cx="5" cy="19" r="1"></circle>
+                    </svg>
+                    RSS Feed
+                </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Badev. All rights reserved.</p>
+        <p class="footer-credit">Made with <span class="heart">❤️</span> by <a href="https://github.com/badev-net" target="_blank" rel="noopener noreferrer">Nikola Badev</a></p>
+    </div>
+</footer>
+
+    
+    <script src="/js/theme.js"></script>
+    <script src="/js/nav.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
+</body>
+</html>
