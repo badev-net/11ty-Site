@@ -150,6 +150,27 @@ html[data-theme="light"] .post-content code {
   color: #059669;
 }
 
+html[data-theme="light"] .post-content table {
+  border-color: #059669;
+  background: #f8fafc;
+  box-shadow: 0 0 10px rgba(5, 150, 105, 0.2);
+}
+
+html[data-theme="light"] .post-content th {
+  background: rgba(5, 150, 105, 0.1);
+  color: #059669;
+  border-bottom-color: #059669;
+}
+
+html[data-theme="light"] .post-content td {
+  color: var(--text-primary);
+  border-bottom-color: rgba(5, 150, 105, 0.2);
+}
+
+html[data-theme="light"] .post-content tr:hover td {
+  background: rgba(5, 150, 105, 0.05);
+}
+
 html[data-theme="light"] .responsibilities li,
 html[data-theme="light"] .skill-category p,
 html[data-theme="light"] .skill-category ul li,
@@ -1589,6 +1610,40 @@ html[data-theme="light"] .contact-note {
   font-style: italic;
   color: rgba(255, 255, 255, 0.85);
   border-radius: var(--border-radius-sm);
+}
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: var(--darker-bg);
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--glow-sm);
+}
+.post-content th,
+.post-content td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+}
+.post-content th {
+  background: rgba(0, 217, 255, 0.1);
+  color: var(--accent-cyan);
+  font-family: "Orbitron", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--primary-color);
+}
+.post-content td {
+  color: rgba(255, 255, 255, 0.9);
+}
+.post-content tr:last-child td {
+  border-bottom: none;
+}
+.post-content tr:hover td {
+  background: rgba(0, 217, 255, 0.05);
 }
 .post-content a {
   color: var(--accent-cyan);
