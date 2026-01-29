@@ -38,7 +38,7 @@ A fast, accessible personal website and blog built with Eleventy (11ty), focused
 | Done   | Contact Form              | Let users reach me via e-mail                          |
 | Done   | Email Verification        | 3-layer validation to block spam and fake emails       |
 | Done   | Dark/Light Theme          | Automatic detection with manual toggle                 |
-|        | Sitemap                   | Improve SEO and indexing                               |
+| Done   | Sitemap                   | Improve SEO and indexing                               |
 |        | Visitor Counter           | Tracks site traffic                                    |
 |        | Decap Admin UX            | Makes content editing more user-friendly and intuitive |
 |        | Dark/Light Mode for Admin | Improves admin panel readability and styling           |

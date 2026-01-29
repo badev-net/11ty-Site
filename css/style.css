@@ -130,12 +130,24 @@ html[data-theme="light"] footer::before,
 html[data-theme="light"] .resume-header::before,
 html[data-theme="light"] .contact-form::before,
 html[data-theme="light"] .post-content pre::before {
-  background: var(--darker-bg);
+  background: #f1f5f9;
   color: #059669;
   border-color: #059669;
   text-shadow:
     0 0 3px #059669,
     0 0 6px #059669;
+}
+
+html[data-theme="light"] .post-content pre {
+  border-color: #059669;
+  box-shadow:
+    0 0 10px rgba(5, 150, 105, 0.3),
+    inset 0 0 20px rgba(5, 150, 105, 0.1);
+}
+
+html[data-theme="light"] .post-content code {
+  border-color: #059669;
+  color: #059669;
 }
 
 html[data-theme="light"] .responsibilities li,
@@ -896,6 +908,7 @@ main {
   min-height: 60vh;
   position: relative;
   z-index: 10;
+  overflow: visible;
 }
 main::before {
   display: none;
@@ -1461,6 +1474,7 @@ html[data-theme="light"] .contact-note {
 .blog-post-single {
   max-width: 900px;
   margin: 0 auto;
+  overflow: visible;
 }
 
 .post-header {
@@ -1485,6 +1499,8 @@ html[data-theme="light"] .contact-note {
   line-height: 1.9;
   color: rgba(255, 255, 255, 0.9);
   font-family: "Share Tech Mono", monospace;
+  overflow: visible;
+  position: relative;
 }
 .post-content h2 {
   font-size: 2rem;
@@ -1533,29 +1549,37 @@ html[data-theme="light"] .contact-note {
   background: var(--darker-bg);
   border: 2px solid var(--primary-color);
   padding: 1.5rem;
-  overflow-x: auto;
-  margin: 1.5rem 0;
+  overflow: visible;
+  margin: 2rem 0 1.5rem 0;
   box-shadow:
     var(--glow-sm),
     inset 0 0 20px rgba(0, 217, 255, 0.1);
   position: relative;
   border-radius: var(--border-radius-md);
-}
-.post-content pre::before {
-  content: "[ CODE ]";
-  position: absolute;
-  top: -12px;
-  left: 10px;
-  background: var(--darker-bg);
-  padding: 0 10px;
-  color: var(--primary-color);
-  font-size: 0.7rem;
-  font-family: "Orbitron", monospace;
+  z-index: 1;
 }
 .post-content pre code {
+  display: block;
+  overflow-x: auto;
   background: none;
   border: none;
   padding: 0;
+}
+.post-content pre::before {
+  content: "[ code ]";
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background: #050505;
+  padding: 0 10px;
+  font-size: 0.7rem;
+  color: var(--primary-color);
+  text-shadow: var(--glow-sm);
+  font-family: "Orbitron", monospace;
+  letter-spacing: 2px;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius-sm);
+  z-index: 10;
 }
 .post-content blockquote {
   border-left: 4px solid var(--accent-pink);
@@ -1917,6 +1941,7 @@ html[data-theme="light"] .footer-credit a {
   color: var(--primary-color);
   text-shadow: var(--glow-sm);
   font-family: "Orbitron", monospace;
+  letter-spacing: 2px;
   border: 1px solid var(--primary-color);
   border-radius: var(--border-radius-sm);
   animation: glitch-pronounced 8s infinite;

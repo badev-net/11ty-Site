@@ -3,14 +3,21 @@ const { DateTime } = require("luxon");
 module.exports = function (eleventyConfig) {
   // Copy static assets
   eleventyConfig.addPassthroughCopy("css");
+  eleventyConfig.addPassthroughCopy("js");
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("images/uploads");
   eleventyConfig.addPassthroughCopy("files");
+  eleventyConfig.addPassthroughCopy("robots.txt");
 
   // Date filter for blog posts
   eleventyConfig.addFilter("postDate", (dateObj) => {
     return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED);
+  });
+
+  // ISO date filter for sitemap
+  eleventyConfig.addFilter("isoDate", (dateObj) => {
+    return DateTime.fromJSDate(dateObj).toISODate();
   });
 
   // Limit filter for home page recent posts

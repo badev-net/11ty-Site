@@ -1,6 +1,8 @@
 {
   "name": "Badev",
-  "description": "First Project",
+  "description": "Security analyst specializing in cyber and physical security systems, incident response, and network defense. Based in New Jersey.",
   "url": "https://badev.net",
-  "currentYear": 2026
+  "currentYear": 2026,
+  "author": "Nikola Badev",
+  "image": "/images/og-default.png"
 }
