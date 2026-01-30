@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Building badev.net: A Security Guy&#39;s Journey Into Static Sites | Badev</title>
-    <meta name="description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.">
+    <meta name="description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the struggles, the infrastructure rabbit holes, and why I went full cyberpunk.">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://badev.net/blog/2026-01-29-building-badev-net/">
@@ -13,7 +13,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://badev.net/blog/2026-01-29-building-badev-net/">
     <meta property="og:title" content="Building badev.net: A Security Guy&#39;s Journey Into Static Sites | Badev">
-    <meta property="og:description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.">
+    <meta property="og:description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the struggles, the infrastructure rabbit holes, and why I went full cyberpunk.">
     <meta property="og:image" content="https://badev.net/images/og-default.png">
     <meta property="og:site_name" content="Badev">
 
@@ -21,7 +21,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://badev.net/blog/2026-01-29-building-badev-net/">
     <meta name="twitter:title" content="Building badev.net: A Security Guy&#39;s Journey Into Static Sites | Badev">
-    <meta name="twitter:description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.">
+    <meta name="twitter:description" content="How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the struggles, the infrastructure rabbit holes, and why I went full cyberpunk.">
     <meta name="twitter:image" content="https://badev.net/images/og-default.png">
 
     <link rel="stylesheet" href="/css/style.css">
@@ -98,11 +98,17 @@
     </header>
 
     <div class="post-content">
-        <p>I've been building and breaking things since I was a kid—running game servers in middle school, jailbreaking iPhones, JTAG-modding Xboxes. But I'd never actually built a personal website. After years of working in security operations and building out my home lab, I figured it was time to have a proper online presence. Not for clout, just for documentation. And honestly? I was tired of LinkedIn being my only online presence. A place to put my resume, write about what I'm learning, and maybe help someone else avoid the same rabbit holes I fall into.</p>
-<p>This is the story of how badev.net came together.</p>
+        <h2>Why I Finally Built a Personal Site</h2>
+<p>I've been building and breaking things since before I knew what a career in tech looked like.</p>
+<p>At twelve years old, I was running a Minecraft server with 40-50 concurrent players. I wrote custom plugins, handled donations, and learned that infrastructure doesn't care if you're in middle school if your server goes down during peak hours, forty angry kids are going to let you know about it. That taught me more about uptime and user management than any class ever did.</p>
+<p>Garry's Mod came next, and that's where things got real. I partnered with a friend who handled the customer facing side—support tickets, ban appeals, the donation/rank system while I ran all of the technical/backend. We had three game modes running simultaneously, somewhere between 150-200 concurrent players across all servers. For a couple of middle schoolers, we were basically running a small business. While didn't realize it at the time, I was learning server administration, database management, and how to keep comoplex systems stable under load.</p>
+<p>Then came Rust during its beta days. Fifty to a hundred players on one server, back when the game was still figuring out what it wanted to be. Most of those players eventually moved on before the game officially released, but I'd already caught the bug. I liked making things work.</p>
+<p>Between the game servers, jailbreaking every iPhone I could get my hands on, rooting Android devices, and JTAGing Xboxes. If there was firmware to poke at or a bootloader to unlock, I was there. Hardware hacking wasn't a skill I learned for a job, it was just what I did for fun.</p>
+<p>Fast forward to now. I work in physical security systems at AIG during the day, I've got a 24-bay Dell PowerEdge R720 that doubles as a space heater for my 3D printer, and I run a home lab with more VLANs than the corporate global network I support at work. But I'd never built a personal website. I intentionally kept my online presence minimal with no social media footprint, and no public profiles beyond what was necessary, that was deliberate.</p>
+<p>I finally decided to change that. Not for clout or SEO, but to document what I'm learning and maybe help someone else navigate these topics. Privacy used to be the default state of existence. You had to actively seek someone out to learn about them. Now it's inverted. Surveillance capitalism has normalized mass data collection to the point where opting out is treated as suspicious. We live in what security researchers call a &quot;glass house&quot; environment, where the assumption is that everything is visible unless you take extraordinary measures to prevent it. The asymmetry is staggering: corporations and governments have unprecedented access to personal information while individuals have almost no visibility into how that data is used, sold, or weaponized. This site exists partly to push back against that, to talk about threat modeling, operational security, and the kind of defensive thinking that shouldn't be necessary but increasingly is.</p>
 <hr>
 <h2>The Tech Stack</h2>
-<p>Before diving into the details, here's what I ended up with:</p>
+<p>Here's what I ended up with:</p>
 <table>
 <thead>
 <tr>
@@ -128,12 +134,16 @@
 <td>Cloudflare Pages</td>
 </tr>
 <tr>
-<td>Auth</td>
-<td>Netlify Identity (for CMS only)</td>
+<td>CMS Auth</td>
+<td>Netlify Identity</td>
 </tr>
 <tr>
 <td>Domain + SSL</td>
 <td>Cloudflare</td>
+</tr>
+<tr>
+<td>Contact Form Backend</td>
+<td>Python Flask + Mailcow</td>
 </tr>
 <tr>
 <td>Version Control</td>
@@ -141,335 +151,90 @@
 </tr>
 </tbody>
 </table>
-<p>Total cost: $0/month (domain registration aside).</p>
-<p>Now let me walk through how I set up each piece.</p>
+<p>Total cost: $0/month (domain registration aside). The contact form runs on infrastructure I already had in my home lab.</p>
 <hr>
-<h2>Eleventy (11ty) - The Static Site Generator</h2>
-<p>I looked at a lot of options. Jekyll, Hugo, Next.js, even just raw HTML. I settled on <a href="https://www.11ty.dev/">Eleventy (11ty)</a> because it hit the sweet spot: simple enough to not get in my way, flexible enough to grow with me.</p>
-<p>The pitch is straightforward—it's a static site generator that takes templates and content files and spits out plain HTML. No client-side JavaScript unless you add it. No database. Just files. That resonated with me. I already deal with enough complexity fighting with legacy physical security systems at AIG. I wanted something that just worked without me having to become an expert in yet another framework.</p>
-<h3>Initial Setup</h3>
-<p>Getting started was quick:</p>
-<pre><code class="language-bash">mkdir badev-net
-cd badev-net
-npm init -y
-npm install --save-dev @11ty/eleventy
-</code></pre>
-<p>I added these scripts to <code>package.json</code>:</p>
-<pre><code class="language-json">{
-  &quot;scripts&quot;: {
-    &quot;start&quot;: &quot;eleventy --serve&quot;,
-    &quot;build&quot;: &quot;eleventy&quot;,
-    &quot;clean&quot;: &quot;rm -rf _site&quot;
-  }
-}
-</code></pre>
-<h3>Project Structure</h3>
-<p>Here's how I organized everything:</p>
-<pre><code>badev-net/
-├── _data/
-│   └── site.json          # Global site config (name, URL, etc.)
-├── _includes/
-│   └── layouts/
-│       ├── base.njk       # Main layout template
-│       ├── post.njk       # Blog post layout
-│       └── resume.njk     # Resume page layout
-├── admin/
-│   ├── config.yml         # Decap CMS configuration
-│   └── index.html         # CMS admin interface
-├── blog/
-│   ├── blog.json          # Default front matter for posts
-│   └── *.md               # Individual blog posts
-├── css/
-│   └── style.css          # The cyberpunk madness
-├── resume/
-│   └── index.md           # Resume content
-├── index.md               # Homepage
-└── .eleventy.js           # 11ty configuration
-</code></pre>
-<p>I went with this structure because I wanted clear separation between content (markdown files), presentation (templates), and configuration. Coming from a security background, I like things organized in a way where I can immediately understand what's what without digging through nested directories.</p>
-<h3>The Configuration File</h3>
-<p>The <code>.eleventy.js</code> config handles custom filters, passthrough file copying, and build settings:</p>
-<pre><code class="language-javascript">const { DateTime } = require(&quot;luxon&quot;);
-
-module.exports = function (eleventyConfig) {
-  // Date formatting filter
-  eleventyConfig.addFilter(&quot;postDate&quot;, (dateObj) =&gt; {
-    return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED);
-  });
-
-  // Limit filter for &quot;recent posts&quot; on homepage
-  eleventyConfig.addFilter(&quot;limit&quot;, function (arr, limit) {
-    return arr.slice(0, limit);
-  });
-
-  // Copy static assets
-  eleventyConfig.addPassthroughCopy(&quot;css&quot;);
-  eleventyConfig.addPassthroughCopy(&quot;images&quot;);
-  eleventyConfig.addPassthroughCopy(&quot;admin&quot;);
-
-  return {
-    dir: {
-      input: &quot;.&quot;,
-      output: &quot;_site&quot;,
-      includes: &quot;_includes&quot;,
-    },
-  };
-};
-</code></pre>
-<p>The <code>postDate</code> filter uses Luxon to turn ugly ISO dates into something readable. The <code>limit</code> filter lets me show only the three most recent posts on the homepage. Neither of these exist in vanilla 11ty—you have to add them yourself. I found this out the hard way when my homepage tried to render a filter that didn't exist and just crashed silently.</p>
+<h2>Eleventy (11ty) — Keeping It Simple</h2>
+<p>I looked at a lot of options. Jekyll felt dated. Hugo seemed fast but the templating language was unfamiliar. Next.js was overkill for what I needed—I didn't want to manage React for a portfolio site. Even raw HTML crossed my mind, but I knew I'd regret that the moment I wanted a blog.</p>
+<p>I settled on Eleventy because it hit the sweet spot: simple enough to not get in my way, flexible enough to grow with me. It takes templates and content files and spits out plain HTML. No client-side JavaScript unless you add it. No database. Just files.</p>
+<p>That resonated with me. I spend my days at work dealing with legacy physical security systems, fighting with proprietary protocols and vendor lock-in. The last thing I wanted was to fight a framework on my personal time.</p>
+<p>Setting up 11ty took about ten minutes. Create a directory, run <code>npm init</code>, install Eleventy, add some scripts to package.json, and you're building. The real time sink was figuring out the project structure that made sense for my brain.</p>
+<p>I organized everything with clear separation: <code>_data</code> for global config, <code>_includes/layouts</code> for templates, <code>blog</code> for posts, <code>admin</code> for the CMS interface. Coming from a security background where I need to understand what's what at a glance, I wanted a structure where I could immediately tell where things lived without digging through nested directories.</p>
+<p>The configuration file handles custom filters and passthrough copying. I added a <code>postDate</code> filter using Luxon because 11ty doesn't format dates nicely out of the box, and a <code>limit</code> filter to show only recent posts on the homepage. Neither of these exist in vanilla 11ty—I discovered that the hard way when my homepage crashed trying to use a filter that didn't exist. It just crashed silently. No helpful error message. Just nothing.</p>
 <hr>
-<h2>Nunjucks - The Templating Engine</h2>
-<p>11ty supports multiple templating languages. I went with <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a> because the syntax felt clean and the documentation was solid. If you've never heard of it, think of it like HTML with superpowers—variables, loops, conditionals, includes. It's made by Mozilla and it just works.</p>
-<p>I initially considered using Liquid (what Jekyll uses), but Nunjucks felt more like writing actual code. The syntax is intuitive if you've done any server-side templating before.</p>
-<h3>Base Layout Template</h3>
-<p>Everything inherits from <code>_includes/layouts/base.njk</code>. This handles the HTML boilerplate, navigation, and footer:</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot; /&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-    &lt;title&gt;Building badev.net: A Security Guy&amp;#39;s Journey Into Static Sites | Badev&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/style.css&quot; /&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;header&gt;
-      &lt;nav&gt;
-        &lt;a href=&quot;/&quot; class=&quot;logo&quot;&gt;Badev&lt;/a&gt;
-        &lt;ul&gt;
-          &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a href=&quot;/resume/&quot;&gt;Resume&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a href=&quot;/blog/&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a href=&quot;/contact/&quot;&gt;Contact&lt;/a&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/nav&gt;
-    &lt;/header&gt;
-
-    &lt;main&gt;&lt;/main&gt;
-
-    &lt;footer&gt;
-      &lt;p&gt;&amp;copy; 2026 Badev&lt;/p&gt;
-    &lt;/footer&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<h3>Blog Post Layout</h3>
-<p>Individual posts use <code>_includes/layouts/post.njk</code>, which extends the base and adds post-specific stuff like date and tags:</p>
-<pre><code class="language-html">---
-layout: layouts/base.njk
----
-
-&lt;article class=&quot;blog-post&quot;&gt;
-  &lt;h1&gt;Building badev.net: A Security Guy&amp;#39;s Journey Into Static Sites&lt;/h1&gt;
-  &lt;p class=&quot;post-meta&quot;&gt;
-    Jan 29, 2026  | Tags: 11tywebdevhomelab 
-  &lt;/p&gt;
-
-  
-
-  &lt;a href=&quot;/blog/&quot;&gt;← Back to all posts&lt;/a&gt;
-&lt;/article&gt;
-</code></pre>
-<h3>Blog Index Page</h3>
-<p>The blog listing at <code>/blog/</code> is <code>blog/index.njk</code>. It loops through all posts:</p>
-<pre><code class="language-html">---
-layout: layouts/base.njk
-title: Blog
----
-
-&lt;div class=&quot;blog-list&quot;&gt;
-  &lt;h1&gt;Blog&lt;/h1&gt;
-
-  
-  &lt;article class=&quot;post-preview&quot;&gt;
-    &lt;h2&gt;&lt;a href=&quot;/blog/2026-01-29-building-badev-net/&quot;&gt;Building badev.net: A Security Guy&amp;#39;s Journey Into Static Sites&lt;/a&gt;&lt;/h2&gt;
-    &lt;p class=&quot;post-meta&quot;&gt;Jan 29, 2026&lt;/p&gt;
-    
-    &lt;p&gt;How I built my portfolio site with 11ty, Decap CMS, and Cloudflare Pages—including the setup process, the mistakes, and why I went full cyberpunk.&lt;/p&gt;
-    
-  &lt;/article&gt;
-  
-&lt;/div&gt;
-</code></pre>
-<p>The <code>collections.posts</code> is automatically created by 11ty because my blog posts have <code>tags: post</code> in their front matter.</p>
+<h2>Nunjucks — Templates That Make Sense</h2>
+<p>11ty supports multiple templating languages. I went with Nunjucks because the syntax felt clean and the documentation was solid. If you've never heard of it, think of it like HTML with superpowers—variables, loops, conditionals, includes. It's made by Mozilla and it just works.</p>
+<p>Everything inherits from a base layout that handles the HTML boilerplate, navigation, and footer. Blog posts extend that base and add post-specific stuff like dates and tags. The blog index loops through all posts. Nothing groundbreaking, but it keeps things maintainable.</p>
+<p>I initially considered Liquid (what Jekyll uses), but Nunjucks felt more like writing actual code. The syntax is intuitive if you've done any server-side templating before.</p>
 <hr>
-<h2>Decap CMS - Content Management</h2>
-<p>A static site is great for performance and security, but how do you update content without touching code every time? I wanted to be able to write blog posts from anywhere without opening VS Code.</p>
-<p>Enter <a href="https://decapcms.org/">Decap CMS</a> (formerly Netlify CMS). It's a git-based CMS that gives you a <code>/admin</code> interface right on your site. You log in, write a post in a nice editor, hit publish, and it commits the markdown file directly to your GitHub repo. Your site rebuilds automatically.</p>
-<h3>Admin Interface Setup</h3>
-<p>I created <code>admin/index.html</code>:</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot; /&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-    &lt;title&gt;Content Manager&lt;/title&gt;
-    &lt;script src=&quot;https://identity.netlify.com/v1/netlify-identity-widget.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;script src=&quot;https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js&quot;&gt;&lt;/script&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<h3>CMS Configuration</h3>
-<p>The <code>admin/config.yml</code> defines what content can be edited and how:</p>
-<pre><code class="language-yaml">backend:
-  name: git-gateway
-  branch: main
-
-media_folder: &quot;images/uploads&quot;
-public_folder: &quot;/images/uploads&quot;
-
-collections:
-  - name: &quot;blog&quot;
-    label: &quot;Blog Posts&quot;
-    folder: &quot;blog&quot;
-    create: true
-    slug: &quot;---&quot;
-    fields:
-      - {
-          label: &quot;Layout&quot;,
-          name: &quot;layout&quot;,
-          widget: &quot;hidden&quot;,
-          default: &quot;layouts/post.njk&quot;,
-        }
-      - { label: &quot;Title&quot;, name: &quot;title&quot;, widget: &quot;string&quot; }
-      - { label: &quot;Date&quot;, name: &quot;date&quot;, widget: &quot;datetime&quot; }
-      - { label: &quot;Description&quot;, name: &quot;description&quot;, widget: &quot;string&quot; }
-      - { label: &quot;Tags&quot;, name: &quot;tags&quot;, widget: &quot;list&quot;, default: [&quot;post&quot;] }
-      - { label: &quot;Body&quot;, name: &quot;body&quot;, widget: &quot;markdown&quot; }
-
-  - name: &quot;resume&quot;
-    label: &quot;Resume&quot;
-    files:
-      - label: &quot;Resume Content&quot;
-        name: &quot;resume&quot;
-        file: &quot;resume/index.md&quot;
-        fields:
-          - {
-              label: &quot;Layout&quot;,
-              name: &quot;layout&quot;,
-              widget: &quot;hidden&quot;,
-              default: &quot;layouts/resume.njk&quot;,
-            }
-          - {
-              label: &quot;Title&quot;,
-              name: &quot;title&quot;,
-              widget: &quot;hidden&quot;,
-              default: &quot;Resume&quot;,
-            }
-          - { label: &quot;Name&quot;, name: &quot;name&quot;, widget: &quot;string&quot; }
-          - { label: &quot;Body&quot;, name: &quot;body&quot;, widget: &quot;markdown&quot; }
-</code></pre>
-<p>This gives me a nice admin panel at <code>/admin/</code> where I can create blog posts and edit my resume without touching the code.</p>
-<h3>The OAuth Problem</h3>
+<h2>Decap CMS — The OAuth Rabbit Hole</h2>
+<p>I wanted a CMS so I could write posts from my phone or any browser without touching code. Decap CMS (formerly Netlify CMS) gives you an admin panel at <code>/admin/</code> where you can create and edit content through a nice interface. Changes commit directly to your GitHub repo.</p>
+<p>The catch: Decap needs an OAuth backend to authenticate you with GitHub. If you're hosting on Netlify, they handle this automatically. I'm not on Netlify. I wanted everything on Cloudflare.</p>
 <p>This is where I fell down a rabbit hole for way too long.</p>
-<p>Decap needs an OAuth backend to authenticate you with GitHub. If you're hosting on Netlify, they handle this for you automatically. I'm not on Netlify—I wanted everything on Cloudflare.</p>
-<p>I spent probably three hours reading Authentik docs and Decap source code trying to figure out if I could use Authentik (an open-source identity provider I already run in my home lab) as the OAuth server. The problem is that Decap's OAuth flow is pretty specific. It expects certain endpoints and response formats that don't quite match standard OIDC flows. I got close—Authentik could handle the initial auth—but the token exchange kept failing because Decap was looking for GitHub-specific claims in the JWT.</p>
-<p>I also explored writing a Cloudflare Worker to act as a proxy between Decap and GitHub's OAuth. Technically possible, but it meant handling token refresh, scope management, and a bunch of edge cases. The complexity wasn't worth it for a personal site.</p>
-<p>In the end, I went with Netlify Identity just for the auth piece while hosting the actual site on Cloudflare Pages. A hybrid approach. It's definitely janky. But it works, and I can write blog posts from my phone now, so whatever. One day I might write that Cloudflare Worker to replace this entirely, but for now it's fine.</p>
+<p>I spent probably three hours reading documentation and source code trying to figure out if I could use Authentik—an open-source identity provider I already run in my home lab—as the OAuth server. I got close. Authentik could handle the initial authentication. But the token exchange kept failing because Decap expects GitHub-specific claims in the JWT that Authentik wasn't providing. The OAuth flow is particular about what it wants to see.</p>
+<p>I also tried Cloudflare's OAuth solution, thinking I could keep everything on one platform. That didn't work either—similar issues with the expected response format. Decap really wants to talk to GitHub's OAuth specifically, or something that perfectly mimics it.</p>
+<p>Writing a custom Cloudflare Worker to proxy between Decap and GitHub's OAuth crossed my mind. Technically possible, but it meant handling token refresh, scope management, and edge cases I didn't want to debug for a portfolio site. I'm still considering implementing something like this for a future project—maybe a self-hosted forum—but for now, the complexity wasn't worth it.</p>
+<p>In the end, I went with Netlify Identity just for the auth piece while hosting the actual site on Cloudflare Pages. It's a hybrid approach. It's definitely janky—I'm using Netlify's service purely for authentication while the site itself lives entirely on Cloudflare. But it works, and I can write blog posts from my phone now, so whatever.</p>
+<p>One day I might write that Cloudflare Worker to replace Netlify Identity entirely and have the whole stack on one platform. For now, this works.</p>
 <hr>
-<h2>GitHub - Version Control</h2>
-<p>Standard Git stuff—nothing worth dwelling on:</p>
-<pre><code class="language-bash">git init
-git add .
-git commit -m &quot;Initial commit&quot;
-git branch -M main
-git remote add origin https://github.com/badev-net/badev-net.git
-git push -u origin main
-</code></pre>
-<p>Every push to <code>main</code> triggers a rebuild on Cloudflare Pages. The CMS commits directly to the repo when I publish posts, which also triggers rebuilds. It's a nice loop.</p>
+<h2>Cloudflare Pages — The Easy Part</h2>
+<p>The actual deployment turned out to be the simplest piece of the whole project. Cloudflare Pages connects to your GitHub repo and rebuilds automatically on every push.</p>
+<p>I configured the build settings (build command: <code>npm run build</code>, output directory: <code>_site</code>, Node version 18), added my custom domain, and Cloudflare handled everything else—SSL certificates, CDN distribution, caching. No nginx configuration. No manual certificate management. It genuinely just worked.</p>
+<p>Every push to <code>main</code> triggers a rebuild. When I publish a post through Decap CMS, it commits to the repo, which triggers a rebuild. The loop is clean.</p>
+<p>Adding my domain was straightforward since I already use Cloudflare for DNS. I added <code>badev.net</code> as a custom domain, and Cloudflare automatically provisioned SSL and added the DNS records. Five minutes.</p>
 <hr>
-<h2>Cloudflare Pages - Hosting</h2>
-<p>The actual deployment turned out to be the easy part. <a href="https://pages.cloudflare.com/">Cloudflare Pages</a> connects to your GitHub repo and rebuilds on every push.</p>
-<h3>Setup Steps</h3>
-<ol>
-<li>Log into Cloudflare Dashboard</li>
-<li>Go to Pages → Create a project</li>
-<li>Connect your GitHub account and select the repo</li>
-<li>Configure build settings:
-<ul>
-<li><strong>Build command:</strong> <code>npm run build</code></li>
-<li><strong>Build output directory:</strong> <code>_site</code></li>
-<li><strong>Root directory:</strong> <code>/</code> (leave default)</li>
-</ul>
-</li>
-<li>Add environment variable: <code>NODE_VERSION</code> = <code>18</code></li>
-</ol>
-<p>That's it. Cloudflare handles the build, caching, and CDN distribution.</p>
-<h3>Custom Domain</h3>
-<p>Adding my domain was straightforward:</p>
-<ol>
-<li>In Pages → your project → Custom domains</li>
-<li>Add <code>badev.net</code></li>
-<li>Cloudflare automatically provisions SSL</li>
-<li>DNS records are added automatically since I use Cloudflare for DNS</li>
-</ol>
-<p>No manual certificate management. No nginx config. It just works.</p>
-<hr>
-<h2>Netlify Identity - CMS Authentication</h2>
-<p>Since Decap CMS needs OAuth to authenticate with GitHub, and I didn't want to build my own auth server, I used Netlify Identity as a standalone service.</p>
-<h3>Setup</h3>
-<ol>
-<li>Create a Netlify account (free tier works)</li>
-<li>Create a new site (can be empty—just needs Identity enabled)</li>
-<li>Go to Site Settings → Identity → Enable Identity</li>
-<li>Under Registration, set to &quot;Invite only&quot;</li>
-<li>Enable Git Gateway under Identity → Services</li>
-<li>Invite yourself via email</li>
-</ol>
-<p>The Identity widget in my <code>admin/index.html</code> handles the login flow. When I authenticate, it gives Decap the token it needs to commit to GitHub.</p>
+<h2>The Contact Form and Resume Download — Mailcow and the Python Relay</h2>
+<p>I wanted a contact form, but I wasn't about to pay for a third-party form service when I already run my own mail server. I've been running Mailcow in my home lab for about a year now. It's a fully-featured mail server stack—Postfix, Dovecot, Rspamd—packaged in Docker containers with a solid web UI. Setting it up was painful. Getting SPF, DKIM, and DMARC configured correctly, setting up reverse DNS, getting off spam blacklists—that took weeks of troubleshooting. But once it's running, it's rock solid.</p>
+<p>The problem: Cloudflare Pages is static. There's no server-side processing. I needed something to receive form submissions and forward them to my mail server.</p>
+<p>So I built a Python Flask relay. It runs in a Docker container on my PowerEdge server and does exactly what you'd expect: receives POST requests from the contact form, validates the input (email format, message length), rate-limits by IP address to prevent spam, constructs a proper email, and relays it through Mailcow's SMTP. The whole thing is maybe 150 lines of Python. Nothing fancy—Flask, some validation, and smtplib.</p>
+<p>The relay uses a dedicated SMTP user in Mailcow with send-only permissions. If someone somehow compromises the relay, they can't read my email or access anything else. Just basic security hygiene.</p>
+<p>The resume download works similarly. Instead of hosting a static PDF that anyone can scrape, download requests go through the same relay infrastructure. It logs who's requesting it, validates the request, and serves the file. Is this overkill for a resume on a portfolio site? Absolutely. But that's kind of the point. If I'm going to write about security and privacy, the site itself should reflect those principles. Every piece of my infrastructure that touches the public internet goes through the same scrutiny.</p>
+<p>The Python relay runs behind my pfSense firewall. I use an nginx reverse proxy with SSL to expose it externally, and Cloudflare's proxy sits in front of the services that need their origin hidden. The contact form makes a POST request to the relay endpoint. If it succeeds, the user sees a success message. If it fails, they see a generic error and I get a log entry to investigate.</p>
+<p>Is this overkill for a personal portfolio site? Probably. Could I have just used a mailto link and a static PDF? Sure. But where's the fun in that?</p>
 <hr>
 <h2>The Design Evolution</h2>
 <p>This is where things went sideways—in a good way.</p>
-<h3>Phase 1: Clean and Professional</h3>
-<p>My first instinct was to keep it boring. ATS-friendly. Sans-serif fonts, lots of whitespace, neutral colors. I was building this partly as a portfolio for job hunting, so I figured recruiters would appreciate something clean.</p>
-<h3>Phase 2: Let's Add Some Polish</h3>
-<p>Clean got boring fast. I added a purple-blue gradient background, some card-based layouts, better typography. It looked fine. Generic, but fine.</p>
-<h3>Phase 3: Full Cyberpunk</h3>
-<p>Then I said screw it.</p>
-<p>I work in security. I've been hacking on hardware since I was a teenager. I have a server rack in my apartment with a 24-bay Dell PowerEdge R720 that doubles as a space heater for my 3D printer enclosure. The safe corporate design was the lie. This is who I actually am.</p>
-<p>I went full terminal aesthetic:</p>
-<ul>
-<li><strong>Colors:</strong> Neon cyan (<code>#00d9ff</code>) and green (<code>#00ff41</code>) on black</li>
-<li><strong>Fonts:</strong> <a href="https://fonts.google.com/specimen/Share+Tech+Mono">Share Tech Mono</a> for body text, <a href="https://fonts.google.com/specimen/Orbitron">Orbitron</a> for headings</li>
-<li><strong>Effects:</strong> Animated scanlines, grid overlays, glitch animations</li>
-<li><strong>Details:</strong> Terminal-style borders with labels like <code>[ $ whoami ]</code> and <code>[ SYSTEM ONLINE ]</code></li>
-</ul>
+<p><strong>Phase 1: Clean and Professional.</strong> My first instinct was to keep it boring. ATS-friendly resume formatting. Sans-serif fonts, lots of whitespace, neutral colors. I was building this partly for job hunting, so I figured recruiters would appreciate something clean.</p>
+<p><strong>Phase 2: Some Polish.</strong> Clean got boring fast. I added a purple-blue gradient background, card-based layouts, better typography. It looked fine. Generic, but fine.</p>
+<p><strong>Phase 3: Full Cyberpunk.</strong> Then I said screw it.</p>
+<p>I work in security. I've been hacking on hardware since I was a teenager. I have a server rack in my apartment. The safe corporate design was the lie. This felt more honest.</p>
+<p>I went full terminal aesthetic. Neon cyan and green on black. Share Tech Mono for body text, Orbitron for headings. Animated scanlines that scroll slowly across the page. A grid overlay that gives everything a retro CRT feel. Terminal-style borders with labels like <code>[ $ whoami ]</code> and <code>[ SYSTEM ONLINE ]</code>. Neon glow effects on hover states.</p>
 <p>Is it ATS-friendly? Absolutely not. Does it represent who I actually am? Yeah.</p>
-<p>The CSS for this is borderline excessive. Animated scanlines that scroll slowly across the page. A grid overlay that gives everything a retro CRT feel. Neon glow effects on hover states. It's ridiculous and I love it.</p>
+<p>The CSS is borderline excessive. I'm not even going to pretend otherwise. It's ridiculous and I love it.</p>
 <hr>
 <h2>The Bugs</h2>
-<p>No project is complete without a troubleshooting section. Here's what broke:</p>
-<h3>Blank Pages Everywhere</h3>
-<p>At one point my entire site was just white pages. No errors in the console, nothing in the build logs—just nothing. I clicked around for a good 10 minutes thinking maybe it was a caching issue before I realized my layout files existed but were completely empty. 11ty doesn't complain; it just renders... nothing.</p>
-<p><strong>Fix:</strong> Actually put content in the layout files. Yeah. I felt like an idiot for about five minutes.</p>
-<h3>Missing Blog Index</h3>
-<p>I could visit individual blog posts at <code>/blog/2026-01-17-welcome/</code> but <code>/blog/</code> itself 404'd. I'd forgotten to create <code>blog/index.njk</code>. The listing page that shows all posts isn't magic—you have to build it.</p>
-<p><strong>Fix:</strong> Create <code>blog/index.njk</code> with a loop through <code>collections.posts</code>.</p>
-<h3>The <code>limit</code> Filter</h3>
-<p>My homepage was supposed to show the three most recent posts. It crashed because I tried to use a <code>| limit(3)</code> filter that doesn't exist in vanilla 11ty.</p>
-<p><strong>Fix:</strong> Add the filter to <code>.eleventy.js</code>:</p>
-<pre><code class="language-javascript">eleventyConfig.addFilter(&quot;limit&quot;, function (arr, limit) {
-  return arr.slice(0, limit);
-});
-</code></pre>
-<h3>Date Formatting</h3>
-<p>11ty doesn't format dates nicely out of the box. A post dated <code>2026-01-17</code> would show up as a raw ISO string.</p>
-<p><strong>Fix:</strong> Install Luxon and add a custom <code>postDate</code> filter.</p>
-<h3>Mobile Navigation</h3>
-<p>The hamburger menu wasn't closing when you tapped a link. Had to add some JavaScript to handle the overlay state and accessibility (aria-expanded, Escape key to close).</p>
+<p>No project is complete without a troubleshooting section. Building this site involved two AI assistants, countless iterations, and bugs that ranged from embarrassing to genuinely confusing.</p>
+<h3>The Rendering Pipeline Collapse</h3>
+<p>Early in development, I pushed changes and the entire site went white. Every page. No console errors, no build failures, nothing in the logs that indicated a problem. The build completed successfully. The files deployed. They just rendered as blank HTML.</p>
+<p>I spent time checking browser caches, clearing Cloudflare's cache, testing in incognito mode, checking for JavaScript errors that might be preventing paint. Nothing. The issue turned out to be a mismatch between my template chain and how I'd restructured the layouts. The base template existed but wasn't properly inheriting content from child templates after a refactor. 11ty doesn't throw errors when your template chain produces empty output—it just builds empty pages and calls it a day. Debugging required tracing through the entire template inheritance to find where the content variable was getting lost.</p>
+<h3>The Collection That Didn't Exist</h3>
+<p>Individual blog posts rendered fine at their direct URLs. The blog index page at <code>/blog/</code> returned a 404. I assumed I'd misconfigured the URL structure or had a permalink issue. Checked the front matter, checked the directory structure, checked the 11ty config. Everything looked right.</p>
+<p>The actual problem: I'd never created the index template. I had templates for individual posts, but no template that looped through <code>collections.posts</code> to generate the listing page. 11ty doesn't create index pages automatically—if you want a page that lists all your blog posts, you have to build it yourself. Obvious in retrospect, but I'd assumed the collection system handled this.</p>
+<h3>Filter Functions and Silent Failures</h3>
+<p>The homepage was supposed to display the three most recent posts. Instead, it crashed during build. The error message referenced a filter that didn't exist, but the stack trace wasn't particularly helpful in pointing to which template was calling it.</p>
+<p>The issue: I'd used <code>| limit(3)</code> in my template, expecting it to work like similar filters in other templating languages. 11ty doesn't include a <code>limit</code> filter by default. You have to register it in your config file. This one was straightforward once I understood 11ty's filter system, but the initial error message didn't make it obvious that the problem was a missing custom filter versus a syntax error.</p>
+<h3>CSS Specificity Wars</h3>
+<p>The cyberpunk design involved layered elements—scanlines, grid overlays, content, navigation. Getting the z-index hierarchy right across different viewport sizes became its own debugging session. The mobile navigation overlay would cover the hamburger button, making it impossible to close the menu. On some screen sizes, the scanline effect would render above interactive elements, blocking clicks.</p>
+<p>The fix required establishing a strict z-index scale and documenting it at the top of my CSS file. Overlay at 140, menu at 150, toggle at 160. Every new element that needed stacking context had to fit into this scale. I also found duplicate CSS rules from iterative development—multiple definitions of <code>.nav-toggle</code> with conflicting properties that behaved differently depending on which one the browser evaluated last.</p>
+<h3>The OAuth Debugging Spiral</h3>
+<p>The Authentik integration absorbed more debugging time than any other component. OAuth flows involve multiple redirects, token exchanges, and JWT validation. When something fails, it can fail at any of those steps, and the error messages don't always indicate which step broke.</p>
+<p>I enabled verbose logging in Authentik, captured network traffic, decoded JWTs manually, and compared them against what Decap expected. The authentication succeeded—Authentik correctly validated my credentials and issued a token. The failure happened when Decap tried to use that token to access GitHub's API. Decap was passing the token expecting GitHub's specific claims structure, and Authentik's JWT didn't match that structure. No amount of Authentik configuration could fix this because the fundamental assumption in Decap's code is that it's talking to GitHub.</p>
+<p>Cloudflare's OAuth solution had a similar outcome. Different implementation, same core problem: Decap is built around GitHub's OAuth flow specifically.</p>
+<h3>Mobile Navigation State Management</h3>
+<p>The hamburger menu opened correctly but wouldn't close when you tapped a navigation link. The overlay stayed visible, the menu stayed open, and users had to tap the hamburger again or hit Escape to close it. This was a JavaScript state management issue—the click handlers on navigation links weren't calling the close function, and the close function wasn't resetting all the CSS classes and ARIA attributes correctly.</p>
+<p>The fix involved rewriting the navigation JavaScript to properly track state, update <code>aria-expanded</code> for accessibility, listen for Escape key presses, and ensure clicking any navigation link or the overlay itself would trigger the close sequence.</p>
+<h3>Domain and SSL Coordination</h3>
+<p>Setting up the custom domain required coordinating between Cloudflare Pages and Cloudflare DNS. The initial certificate provisioning needed DNS-only mode—Cloudflare's proxy had to be disabled temporarily so the certificate authority could validate domain ownership. Once the certificate was issued, I could enable the proxy for the services that needed origin protection. Getting the timing wrong on this meant either SSL errors or exposed origin IPs.</p>
 <hr>
 <h2>What's Next</h2>
-<p>This site is a work in progress. Some things I want to add:</p>
-<ul>
-<li><strong>A projects section</strong> showcasing my home lab setup—the PowerEdge server, pfSense with Suricata IDS/IPS, the VLAN segmentation, the self-hosted services (Mailcow, honeypots, Plex)</li>
-<li><strong>More blog posts</strong> about actual security topics, not just meta posts about building the site</li>
-<li><strong>A custom OAuth Worker</strong> to replace Netlify Identity and have the whole stack on Cloudflare</li>
-</ul>
-<p>I'm also considering writing about the home lab in more detail. Running your own mail server with proper SPF/DKIM/DMARC, setting up Suricata rules, segmenting IoT devices onto their own VLAN—that kind of stuff.</p>
+<p>This site is a work in progress, and I have a rough roadmap for where I want to take it.</p>
+<p>A projects section is high on the list with a proper showcase of the home lab setup. The PowerEdge server, pfSense with Suricata IDS/IPS, the VLAN architecture, all the self-hosted services running in containers or vms. I want to document the infrastructure in a way that's actually useful to someone trying to build something similar.</p>
+<p>More blog posts about security topics beyond meta posts about building this site. Writing about running your own mail server with proper SPF/DKIM/DMARC configuration. Setting up Suricata rules that actually catch things without drowning you in false positives. The things I've learned through trial and error that might save someone else the debugging time.</p>
+<p>Eventually, that custom Cloudflare Worker to replace Netlify Identity. Having the entire authentication flow on one platform would be cleaner, and the experience might be useful for other projects down the line.</p>
+<p>If you're tackling similar projects or have a topic you'd like me to cover, reach out through the contact form. I'm open to professional opportunities as well.</p>
+<p>This site exists partly because I wanted to stop being invisible on the internet. Now that it's here, I'd rather it be useful than just another portfolio collecting dust.</p>
 <hr>
 <h2>Final Thoughts</h2>
-<p>Building this site reminded me why I got into tech in the first place. Not because I had to, but because I wanted to see what I could make. It's the same reason I ran game servers as a kid, the same reason I have an overcomplicated home lab, the same reason I spend my free time cloning access cards with a Proxmark.</p>
+<p>Building this site reminded me why I got into tech in the first place. Not because I had to, but because I wanted to see what I could make. It's the same itch I had as a twelve year old running game servers, the same reason I have an overcomplicated home lab, the same reason I spend my free time poking at access cards with a Proxmark.</p>
 <p>If you're thinking about building your own site, here's what I'd tell you: just start. Use 11ty if you want simplicity. Use something else if you don't. The tools matter less than the act of building.</p>
 <hr>
 <p><em>This post was written in Decap CMS and deployed automatically via Cloudflare Pages. The source is on <a href="https://github.com/badev-net">GitHub</a>. If you spot something broken, that's probably my fault.</em></p>
