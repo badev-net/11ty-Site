@@ -25,6 +25,7 @@
     <meta name="twitter:image" content="https://badev.net/images/og-default.png">
 
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" onerror="this.remove()">
     <script>
       const savedTheme = localStorage.getItem('theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -45,22 +46,35 @@
             <li><a href="/contact/">Contact</a></li>
             <li><a href="/admin/" class="admin-login">Admin</a></li>
         </ul>
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-        </button>
+        <div class="nav-buttons">
+            <div class="search-container">
+                <button class="search-toggle" id="search-toggle" aria-label="Open search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+                <div class="search-dropdown" id="search-dropdown">
+                    <div id="search"></div>
+                </div>
+            </div>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
     </nav>
 </header>
 
@@ -75,7 +89,7 @@
                 Jan 29, 2026
             </time>
             
-                | Tags: 
+                | Tags:
                 
                     
                 
@@ -94,6 +108,13 @@
                     
                 
             
+            <span class="visitor-counter loading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span class="visitor-count">...</span> visitors
+            </span>
         </p>
     </header>
 
@@ -303,6 +324,66 @@
     
     <script src="/js/theme.js"></script>
     <script src="/js/nav.js"></script>
+    <script src="/js/visitor-counter.js"></script>
+    <script src="/pagefind/pagefind-ui.js" onerror="window.pagefindFailed=true"></script>
+    <script>
+      (function() {
+        const searchToggle = document.getElementById('search-toggle');
+        const searchDropdown = document.getElementById('search-dropdown');
+        const searchContainer = document.querySelector('.search-container');
+        const searchElement = document.getElementById('search');
+        let pagefindUI = null;
+
+        function openSearch() {
+          if (!searchDropdown) return;
+          searchDropdown.classList.add('is-open');
+
+          if (!pagefindUI && typeof PagefindUI !== 'undefined') {
+            pagefindUI = new PagefindUI({
+              element: '#search',
+              showSubResults: false,
+              showImages: false
+            });
+          } else if (!pagefindUI && searchElement) {
+            searchElement.innerHTML = '<p style="padding: 1rem; color: var(--text-muted); text-align: center; font-size: 0.875rem;">Search is currently unavailable.</p>';
+          }
+
+          setTimeout(() => {
+            const input = searchDropdown.querySelector('input');
+            if (input) input.focus();
+          }, 100);
+        }
+
+        function closeSearch() {
+          if (searchDropdown) searchDropdown.classList.remove('is-open');
+        }
+
+        function toggleSearch() {
+          if (!searchDropdown) return;
+          if (searchDropdown.classList.contains('is-open')) {
+            closeSearch();
+          } else {
+            openSearch();
+          }
+        }
+
+        if (searchToggle) searchToggle.addEventListener('click', toggleSearch);
+
+        document.addEventListener('click', (e) => {
+          if (searchContainer && !searchContainer.contains(e.target)) {
+            closeSearch();
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeSearch();
+          if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            toggleSearch();
+          }
+        });
+      })();
+    </script>
     <script>
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
