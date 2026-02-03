@@ -3551,7 +3551,9 @@ html[data-theme="light"] .home-page .about-preview h2::after {
 
 html[data-theme="light"] .search-toggle {
   border-color: #059669;
-  box-shadow: 0 0 3px #059669, 0 0 6px #059669;
+  box-shadow:
+    0 0 3px #059669,
+    0 0 6px #059669;
 }
 
 html[data-theme="light"] .search-toggle svg {
@@ -3568,30 +3570,34 @@ html[data-theme="light"] .search-toggle:hover svg {
 
 /* Search Container & Dropdown */
 .search-container {
-  position: relative;
   display: flex;
   align-items: center;
 }
 
 .search-dropdown {
   display: none;
-  position: fixed;
-  top: 70px;
-  right: 80px;
-  width: min(500px, calc(100vw - 100px));
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  width: min(500px, calc(100vw - 40px));
   max-height: 70vh;
   background: var(--card-bg);
   border: 2px solid var(--primary-color);
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), 0 4px 20px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
+  box-shadow:
+    0 0 20px rgba(0, 255, 136, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.4);
   z-index: 1000;
+  overflow: hidden;
 }
 
 html[data-theme="light"] .search-dropdown {
   background: #ffffff;
   border-color: #059669;
-  box-shadow: 0 0 15px rgba(5, 150, 105, 0.25), 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 0 15px rgba(5, 150, 105, 0.25),
+    0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .search-dropdown.is-open {
@@ -3607,10 +3613,13 @@ html[data-theme="light"] .search-dropdown {
 
 @media (max-width: 768px) {
   .search-dropdown {
-    top: 70px;
-    right: 1rem;
-    left: 1rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    margin-top: 0.5rem;
     width: auto;
+    max-height: 60vh;
   }
 }
 
@@ -3659,8 +3668,10 @@ html[data-theme="light"] .pagefind-ui .pagefind-ui__search-input:focus {
 }
 
 .pagefind-ui .pagefind-ui__result {
+  position: relative;
   padding: 0.75rem;
   border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
 }
 
 .pagefind-ui .pagefind-ui__result:hover {
@@ -3670,6 +3681,21 @@ html[data-theme="light"] .pagefind-ui .pagefind-ui__search-input:focus {
 .pagefind-ui .pagefind-ui__result-link {
   color: var(--primary-color);
   font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.pagefind-ui .pagefind-ui__result-link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.pagefind-ui .pagefind-ui__result:hover .pagefind-ui__result-link {
+  text-decoration: underline;
+  color: var(--accent-cyan);
 }
 
 .pagefind-ui .pagefind-ui__result-excerpt {
