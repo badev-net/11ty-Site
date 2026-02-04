@@ -1464,6 +1464,21 @@ html[data-theme="light"] .contact-note {
   color: var(--dark-bg);
   box-shadow: var(--glow-sm);
 }
+
+.post-comments-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.post-comments-link svg {
+  opacity: 0.7;
+}
+
 .read-more {
   color: var(--accent-cyan);
   text-decoration: none;
@@ -1544,6 +1559,14 @@ html[data-theme="light"] .contact-note {
 }
 .post-content p {
   margin-bottom: 1.5rem;
+}
+.post-content hr {
+  border: none;
+  border-top: 1px solid var(--primary-color);
+  margin: 2rem 0;
+}
+html[data-theme="light"] .post-content hr {
+  border-top-color: #059669;
 }
 .post-content strong {
   color: #ffffff;
@@ -1717,6 +1740,133 @@ html[data-theme="light"] .comments-section {
 html[data-theme="light"] .comments-heading {
   color: var(--primary-color);
   text-shadow: none;
+}
+
+.comments-note {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.comments-note svg {
+  opacity: 0.7;
+}
+
+.discuss-github-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.discuss-github-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+html[data-theme="light"] .discuss-github-link {
+  color: #059669;
+}
+
+/* Jump to Comments Link */
+.jump-to-comments {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.jump-to-comments svg {
+  opacity: 0.7;
+}
+
+/* Post Actions (Back link + Share buttons) */
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--primary-color);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+html[data-theme="light"] .post-actions {
+  border-top-color: #059669;
+}
+
+.post-actions .back-link {
+  margin-top: 0;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.share-btn:hover {
+  background: var(--primary-color);
+  color: var(--dark-bg);
+  box-shadow: var(--glow-sm);
+}
+
+.share-twitter:hover {
+  border-color: #1da1f2;
+  background: #1da1f2;
+}
+
+.share-linkedin:hover {
+  border-color: #0077b5;
+  background: #0077b5;
+}
+
+.share-copy:hover {
+  background: var(--primary-color);
+}
+
+.share-copy.copied {
+  border-color: #10b981;
+  background: #10b981;
+  color: white;
+}
+
+html[data-theme="light"] .share-btn {
+  border-color: #059669;
+  color: #059669;
+}
+
+html[data-theme="light"] .share-btn:hover {
+  color: white;
+}
+
+html[data-theme="light"] .share-copy:hover {
+  background: #059669;
 }
 
 /* Footer */
@@ -3320,6 +3470,28 @@ html[data-theme="light"] .home-page .about-preview h2::after {
   .comments-heading {
     font-size: 0.875rem;
   }
+
+  .post-actions {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .share-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .comments-note {
+    font-size: 0.8rem;
+  }
+
+  .discuss-github-link {
+    font-size: 0.8rem;
+  }
+
+  .jump-to-comments {
+    font-size: 0.85rem;
+  }
 }
 /* ============================================
    RESPONSIVE DESIGN - Large Phones (640px)
@@ -3543,7 +3715,7 @@ html[data-theme="light"] .home-page .about-preview h2::after {
   align-items: center;
   gap: 0.4rem;
   margin-left: 0.5rem;
-  color: var(--text-muted);
+  font-family: inherit;
   font-size: 0.85rem;
 }
 
