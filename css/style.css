@@ -1811,12 +1811,12 @@ html[data-theme="light"] .post-actions {
   margin-top: 0;
 }
 
-.share-buttons {
+.post-social {
   display: flex;
   gap: 1rem;
 }
 
-.share-btn {
+.social-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1830,42 +1830,42 @@ html[data-theme="light"] .post-actions {
   transition: all 0.2s ease;
 }
 
-.share-btn:hover {
+.social-icon:hover {
   background: var(--primary-color);
   color: var(--dark-bg);
   box-shadow: var(--glow-sm);
 }
 
-.share-twitter:hover {
+.icon-x:hover {
   border-color: #1da1f2;
   background: #1da1f2;
 }
 
-.share-linkedin:hover {
+.icon-li:hover {
   border-color: #0077b5;
   background: #0077b5;
 }
 
-.share-copy:hover {
+.icon-copy:hover {
   background: var(--primary-color);
 }
 
-.share-copy.copied {
+.icon-copy.copied {
   border-color: #10b981;
   background: #10b981;
   color: white;
 }
 
-html[data-theme="light"] .share-btn {
+html[data-theme="light"] .social-icon {
   border-color: #059669;
   color: #059669;
 }
 
-html[data-theme="light"] .share-btn:hover {
+html[data-theme="light"] .social-icon:hover {
   color: white;
 }
 
-html[data-theme="light"] .share-copy:hover {
+html[data-theme="light"] .icon-copy:hover {
   background: #059669;
 }
 
@@ -3476,7 +3476,7 @@ html[data-theme="light"] .home-page .about-preview h2::after {
     padding-top: 1.5rem;
   }
 
-  .share-btn {
+  .social-icon {
     width: 40px;
     height: 40px;
   }
