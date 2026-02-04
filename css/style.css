@@ -1683,6 +1683,42 @@ html[data-theme="light"] .contact-note {
   color: var(--dark-bg);
   box-shadow: var(--glow-sm);
 }
+
+/* Comments Section (Giscus) */
+.comments-section {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--primary-color);
+}
+
+.comments-heading {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1rem;
+  color: var(--primary-color);
+  text-shadow: var(--glow-sm);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.giscus {
+  margin-top: 1rem;
+}
+
+.giscus-frame {
+  width: 100%;
+  border: none;
+}
+
+html[data-theme="light"] .comments-section {
+  border-top-color: #059669;
+}
+
+html[data-theme="light"] .comments-heading {
+  color: var(--primary-color);
+  text-shadow: none;
+}
+
 /* Footer */
 footer {
   margin: 3rem 0 0;
@@ -3274,6 +3310,15 @@ html[data-theme="light"] .home-page .about-preview h2::after {
     margin-top: 2.5rem;
     font-size: 0.75rem;
     padding: 0.6rem 1rem;
+  }
+
+  .comments-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+  }
+
+  .comments-heading {
+    font-size: 0.875rem;
   }
 }
 /* ============================================

@@ -9,6 +9,10 @@
 
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
+
+      document.dispatchEvent(new CustomEvent('themeChanged', {
+        detail: { theme: newTheme }
+      }));
     });
   }
 })();
