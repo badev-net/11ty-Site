@@ -20,6 +20,11 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj).toISODate();
   });
 
+  // RFC 822 date filter for RSS feed
+  eleventyConfig.addFilter("rssDate", (dateObj) => {
+    return DateTime.fromJSDate(dateObj).toRFC2822();
+  });
+
   // Limit filter for home page recent posts
   eleventyConfig.addFilter("limit", (array, limit) => {
     return array.slice(0, limit);
